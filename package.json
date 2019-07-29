@@ -1,0 +1,27 @@
+{
+  "name": "env-config-map",
+  "version": "0.0.1",
+  "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexkode/env-config-map.git"
+  },
+  "keywords": [
+    "config",
+    "conf",
+    "env",
+    "dotenv",
+    "twelve-factor",
+    "12factor"
+  ],
+  "author": "hexkode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hexkode/env-config-map/issues"
+  },
+  "homepage": "https://github.com/hexkode/env-config-map#readme"
+}
