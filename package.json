@@ -4,7 +4,8 @@
   "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sandbox": "node sandbox.js"
   },
   "repository": {
     "type": "git",
