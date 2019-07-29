@@ -1,8 +1,10 @@
 const typeTransform = require('./typeTransform.js');
+const getEnv = key => process.env[key];
 
 const defaultOptions = {
   redactedString: '**********',
   typeTransform,
+  getEnv,
 };
 
 /**
@@ -19,25 +21,29 @@ const envConfigMap = (configMap, options = {}) => {
       ...defaultOptions.typeTransform,
       ...options.typeTransform,
     },
+    getEnv: options.getEnv || defaultOptions.getEnv,
   };
 
   const config = {};
   const redacted = {};
 
   for (const key in configMap) {
-    const keyProps = configMap[key];
+    const keyOptions = configMap[key];
 
     // map to env and handle defaults
-    config[key] = process.env[key] || keyProps.default;
+    config[key] = mergedOptions.getEnv(key) || keyOptions.default;
 
     // handle type transform
-    if (keyProps.type) {
-      config[key] = mergedOptions.typeTransform[keyProps.type](config[key]);
+    if (
+      keyOptions.type &&
+      typeof mergedOptions.typeTransform[keyOptions.type] === 'function'
+    ) {
+      config[key] = mergedOptions.typeTransform[keyOptions.type](config[key]);
     }
 
     // generate redacted config
     redacted[key] =
-      keyProps.isSecret && config[key]
+      keyOptions.isSecret && config[key]
         ? mergedOptions.redactedString
         : config[key];
   }
