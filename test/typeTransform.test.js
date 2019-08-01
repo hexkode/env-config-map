@@ -34,12 +34,16 @@ test('"anyStringNotEqual1orTrue" to equal false after boolean type transform', (
   );
 });
 
-test('"a,b,c" to equal [a,b,c] after array type transform', () => {
-  expect(typeTransform.array('a,b,c')).toStrictEqual(['a', 'b', 'c']);
+test('"a,b,c" to equal [a,b,c] after arrayCommaDelim type transform', () => {
+  expect(typeTransform.arrayCommaDelim('a,b,c')).toStrictEqual(['a', 'b', 'c']);
 });
 
-test('" a ,  b   , c " to equal [a,b,c] after array type transform', () => {
-  expect(typeTransform.array(' a ,  b   , c ')).toStrictEqual(['a', 'b', 'c']);
+test('" a ,  b   , c " to equal [a,b,c] after arrayCommaDelim type transform', () => {
+  expect(typeTransform.arrayCommaDelim(' a ,  b   , c ')).toStrictEqual([
+    'a',
+    'b',
+    'c',
+  ]);
 });
 
 test('stringify object to equal object after object type transform', () => {

@@ -10,18 +10,18 @@ const boolean = string => {
   return false;
 };
 
-const array = string => {
-  const results = string.split(',');
-  return results.map(result => result.trim());
-};
-
 const object = string => {
   return JSON.parse(string);
+};
+
+const arrayCommaDelim = string => {
+  const results = string.split(',');
+  return results.map(result => result.trim());
 };
 
 module.exports = {
   number,
   boolean,
-  array,
   object,
+  arrayCommaDelim,
 };

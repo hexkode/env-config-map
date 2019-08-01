@@ -9,8 +9,9 @@ process.env.SERVER_PORT = '8080';
 process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
 process.env.DB_ENABLE_PROFILER = 'yes';
-process.env.EXAMPLE_OBJECT = '{"retyr": 3, "timeout": 1000 }';
-process.env.EXAMPLE_ARRAY = 'id,email,   dateCreated   ,dateModified';
+process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
+process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
+process.env.EXAMPLE_ARRAY_COMMA_DELIM = 'id,email,   dateCreated   ,dateModified';
 process.env.NOT_IN_CONFIG_MAP = 'not mapped';
 
 // define config map
@@ -23,7 +24,8 @@ const configMap = {
   DB_PASSWORD: { isSecret: true },
   DB_ENABLE_PROFILER: { default: false, type: 'yesNoBool' },
   EXAMPLE_OBJECT: { type: 'object' },
-  EXAMPLE_ARRAY: { type: 'array' },
+  EXAMPLE_ARRAY: { type: 'object' },
+  EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
 };
 
 // customize with options

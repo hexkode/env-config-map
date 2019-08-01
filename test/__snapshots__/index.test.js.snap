@@ -6,17 +6,18 @@ Object {
   "DB_PASSWORD": "mypassword",
   "ENABLE_CORS": true,
   "EXAMPLE_ARRAY": Array [
+    "a",
+    1,
+  ],
+  "EXAMPLE_ARRAY_COMMA_DELIM": Array [
     "id",
     "email",
     "dateCreated",
     "dateModified",
   ],
   "EXAMPLE_OBJECT": Object {
-    "retry": Object {
-      "max": 5,
-      "min": null,
-    },
-    "timeout": 60,
+    "retry": 3,
+    "timeout": 1000,
   },
   "LOG_LEVEL": "info",
   "NODE_ENV": "test",
@@ -34,17 +35,18 @@ Object {
   "DB_PASSWORD": "XXXXXXXXXX",
   "ENABLE_CORS": true,
   "EXAMPLE_ARRAY": Array [
+    "a",
+    1,
+  ],
+  "EXAMPLE_ARRAY_COMMA_DELIM": Array [
     "id",
     "email",
     "dateCreated",
     "dateModified",
   ],
   "EXAMPLE_OBJECT": Object {
-    "retry": Object {
-      "max": 5,
-      "min": null,
-    },
-    "timeout": 60,
+    "retry": 3,
+    "timeout": 1000,
   },
   "LOG_LEVEL": "info",
   "NODE_ENV": "test",
