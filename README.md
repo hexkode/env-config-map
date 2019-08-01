@@ -55,7 +55,7 @@ console.log(config.getRedacted());
 
 # Sandbox example output:
 `console.log(config);`
-```json
+```js
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
@@ -72,7 +72,7 @@ console.log(config.getRedacted());
 }
 ```
 `console.log(config.getRedacted());`
-```json
+```js
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
