@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`baseline test equal expected output 1`] = `
+Object {
+  "DB_ENABLE_PROFILER": true,
+  "DB_PASSWORD": "mypassword",
+  "ENABLE_CORS": true,
+  "EXAMPLE_ARRAY": Array [
+    "id",
+    "email",
+    "dateCreated",
+    "dateModified",
+  ],
+  "EXAMPLE_OBJECT": Object {
+    "retry": Object {
+      "max": 5,
+      "min": null,
+    },
+    "timeout": 60,
+  },
+  "LOG_LEVEL": "info",
+  "NODE_ENV": "test",
+  "SERVER_ADDRESS": undefined,
+  "SERVER_PORT": 8080,
+  "getDefaultOptions": [Function],
+  "getOptions": [Function],
+  "getRedacted": [Function],
+}
+`;
+
+exports[`baseline test equal expected output 2`] = `
+Object {
+  "DB_ENABLE_PROFILER": true,
+  "DB_PASSWORD": "XXXXXXXXXX",
+  "ENABLE_CORS": true,
+  "EXAMPLE_ARRAY": Array [
+    "id",
+    "email",
+    "dateCreated",
+    "dateModified",
+  ],
+  "EXAMPLE_OBJECT": Object {
+    "retry": Object {
+      "max": 5,
+      "min": null,
+    },
+    "timeout": 60,
+  },
+  "LOG_LEVEL": "info",
+  "NODE_ENV": "test",
+  "SERVER_ADDRESS": undefined,
+  "SERVER_PORT": 8080,
+}
+`;

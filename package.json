@@ -4,7 +4,7 @@
   "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "sandbox": "node sandbox.js"
   },
   "repository": {
@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/hexkode/env-config-map/issues"
   },
-  "homepage": "https://github.com/hexkode/env-config-map#readme"
+  "homepage": "https://github.com/hexkode/env-config-map#readme",
+  "devDependencies": {
+    "jest": "24.8.0"
+  }
 }
