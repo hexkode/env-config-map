@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/hexkode/env-config-map.svg?style=svg)](https://circleci.com/gh/hexkode/env-config-map)
+
 # env-config-map
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
