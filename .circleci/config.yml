@@ -35,3 +35,7 @@ jobs:
 
       # run tests!
       - run: npm test
+
+      # Collect Coverage Reports
+      - store_artifacts:
+          path: coverage
