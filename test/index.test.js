@@ -35,4 +35,6 @@ test('baseline test equal expected output', () => {
 
   expect(config).toMatchSnapshot();
   expect(config.getRedacted()).toMatchSnapshot();
+  expect(config.getDefaultOptions()).toMatchSnapshot();
+  expect(config.getOptions()).toMatchSnapshot();
 });

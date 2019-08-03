@@ -54,3 +54,30 @@ Object {
   "SERVER_PORT": 8080,
 }
 `;
+
+exports[`baseline test equal expected output 3`] = `
+Object {
+  "getEnv": [Function],
+  "redactedString": "**********",
+  "typeTransform": Object {
+    "arrayCommaDelim": [Function],
+    "boolean": [Function],
+    "number": [Function],
+    "object": [Function],
+  },
+}
+`;
+
+exports[`baseline test equal expected output 4`] = `
+Object {
+  "getEnv": [Function],
+  "redactedString": "XXXXXXXXXX",
+  "typeTransform": Object {
+    "arrayCommaDelim": [Function],
+    "boolean": [Function],
+    "number": [Function],
+    "object": [Function],
+    "yesNoBool": [Function],
+  },
+}
+`;
