@@ -10,6 +10,7 @@ test('baseline test equal expected output', () => {
   process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
   process.env.EXAMPLE_ARRAY_COMMA_DELIM = 'id,email,   dateCreated   ,dateModified';
   process.env.NOT_IN_CONFIG_MAP = 'not mapped';
+  process.env.MISSING_TYPE_TRANSFORM = 'pass thru          ';
 
   const configMap = {
     NODE_ENV: { default: 'development' },
@@ -22,6 +23,7 @@ test('baseline test equal expected output', () => {
     EXAMPLE_OBJECT: { type: 'object' },
     EXAMPLE_ARRAY: { type: 'object' },
     EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
+    MISSING_TYPE_TRANSFORM: { type: 'typeNotDefined' },
   };
 
   const options = {
@@ -37,4 +39,10 @@ test('baseline test equal expected output', () => {
   expect(config.getRedacted()).toMatchSnapshot();
   expect(config.getDefaultOptions()).toMatchSnapshot();
   expect(config.getOptions()).toMatchSnapshot();
+});
+
+test('getOptions() should be equal to default options when no options are provided', () => {
+  const config = envConfigMap({});
+
+  expect(config.getOptions()).toStrictEqual(config.getDefaultOptions());
 });

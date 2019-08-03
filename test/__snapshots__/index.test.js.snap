@@ -20,6 +20,7 @@ Object {
     "timeout": 1000,
   },
   "LOG_LEVEL": "info",
+  "MISSING_TYPE_TRANSFORM": "pass thru          ",
   "NODE_ENV": "test",
   "SERVER_ADDRESS": undefined,
   "SERVER_PORT": 8080,
@@ -49,6 +50,7 @@ Object {
     "timeout": 1000,
   },
   "LOG_LEVEL": "info",
+  "MISSING_TYPE_TRANSFORM": "pass thru          ",
   "NODE_ENV": "test",
   "SERVER_ADDRESS": undefined,
   "SERVER_PORT": 8080,
@@ -60,10 +62,12 @@ Object {
   "getEnv": [Function],
   "redactedString": "**********",
   "typeTransform": Object {
+    "_normalize": [Function],
     "arrayCommaDelim": [Function],
     "boolean": [Function],
     "number": [Function],
     "object": [Function],
+    "string": [Function],
   },
 }
 `;
@@ -73,10 +77,12 @@ Object {
   "getEnv": [Function],
   "redactedString": "XXXXXXXXXX",
   "typeTransform": Object {
+    "_normalize": [Function],
     "arrayCommaDelim": [Function],
     "boolean": [Function],
     "number": [Function],
     "object": [Function],
+    "string": [Function],
     "yesNoBool": [Function],
   },
 }

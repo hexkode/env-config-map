@@ -10,6 +10,7 @@
   - arrayCommaDelim
   - *also supports custom type*
 - isSecret flag to redact value for logging. *(see getRedacted())*
+- For type conversion, only 
 
 # Run sandbox example
 ```console
@@ -30,9 +31,11 @@ process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
 process.env.DB_ENABLE_PROFILER = 'yes';
 process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
+process.env.EXAMPLE_OBJECT_INVALID = '{ "retry": 3, "timeout": 1000 ';
 process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
 process.env.EXAMPLE_ARRAY_COMMA_DELIM = 'id,email,   dateCreated   ,dateModified';
 process.env.NOT_IN_CONFIG_MAP = 'not mapped';
+process.env.MISSING_TYPE_TRANSFORM = 'pass thru          ';
 
 // define config map
 const configMap = {
@@ -44,8 +47,10 @@ const configMap = {
   DB_PASSWORD: { isSecret: true },
   DB_ENABLE_PROFILER: { default: false, type: 'yesNoBool' },
   EXAMPLE_OBJECT: { type: 'object' },
+  EXAMPLE_OBJECT_INVALID: { type: 'object' },
   EXAMPLE_ARRAY: { type: 'object' },
   EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
+  MISSING_TYPE_TRANSFORM: { type: 'typeNotDefined' },
 };
 
 // customize with options
@@ -76,8 +81,10 @@ console.log(config.getRedacted());
   DB_PASSWORD: 'mypassword',
   DB_ENABLE_PROFILER: true,
   EXAMPLE_OBJECT: { retry: 3, timeout: 1000 },
+  EXAMPLE_OBJECT_INVALID: undefined,
   EXAMPLE_ARRAY: [ 'a', 1 ],
   EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ],
+  MISSING_TYPE_TRANSFORM: 'pass thru          ',
   getRedacted: [Function],
   getDefaultOptions: [Function],
   getOptions: [Function]
@@ -94,8 +101,10 @@ console.log(config.getRedacted());
   DB_PASSWORD: 'XXXXXXXXXX',
   DB_ENABLE_PROFILER: true,
   EXAMPLE_OBJECT: { retry: 3, timeout: 1000 },
+  EXAMPLE_OBJECT_INVALID: undefined,
   EXAMPLE_ARRAY: [ 'a', 1 ],
-  EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ]
+  EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ],
+  MISSING_TYPE_TRANSFORM: 'pass thru          '
 }
 ```
 
@@ -120,6 +129,8 @@ const config = envConfigMap(configMap, options);
 - default
 - type
 - isSecret
+- *nullPassThru* (todo): map null or 'null' to null
+- *undefinedPassThru* (todo): map undefined or 'undefined' to undefined
 
 ```js
 const configMap = {

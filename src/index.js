@@ -33,19 +33,15 @@ const envConfigMap = (configMap, options = {}) => {
     // map to env and handle defaults
     config[key] = mergedOptions.getEnv(key) || keyOptions.default;
 
-    // handle type transform
-    if (
-      keyOptions.type &&
-      typeof mergedOptions.typeTransform[keyOptions.type] === 'function'
-    ) {
-      config[key] = mergedOptions.typeTransform[keyOptions.type](config[key]);
+    // handle type transform.  default type to string.
+    // if not matching type transform is found, value is passed through
+    const type = keyOptions.type || 'string';
+    if (typeof mergedOptions.typeTransform[type] === 'function') {
+      config[key] = mergedOptions.typeTransform[type](config[key]);
     }
 
     // generate redacted config
-    redacted[key] =
-      keyOptions.isSecret && config[key]
-        ? mergedOptions.redactedString
-        : config[key];
+    redacted[key] = keyOptions.isSecret && config[key] ? mergedOptions.redactedString : config[key];
   }
 
   config.getRedacted = () => redacted;
