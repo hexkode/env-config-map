@@ -1,7 +1,8 @@
+# env-config-map 
+
 [![CircleCI](https://circleci.com/gh/hexkode/env-config-map.svg?style=svg)](https://circleci.com/gh/hexkode/env-config-map)
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
 
-# env-config-map
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
 - Supported types:
@@ -13,12 +14,17 @@
   - *supports custom types*
 - isSecret flag to redact value for logging. *(see getRedacted())*
 
-# Run sandbox example
+## Installation
+```console
+npm install commander
+```
+
+## Run sandbox example
 ```console
 npm run sandbox
 ```
 
-# Sandbox example
+### Sandbox example
 ```js
 // source from .env (optional)
 // require('dotenv').config();
@@ -70,9 +76,10 @@ console.log(config);
 console.log(config.getRedacted());
 ```
 
-# Sandbox example output:
-`console.log(config);`
+### Sandbox example output:
 ```js
+console.log(config);
+
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
@@ -91,8 +98,10 @@ console.log(config.getRedacted());
   getOptions: [Function]
 }
 ```
-`console.log(config.getRedacted());`
+
 ```js
+console.log(config.getRedacted());
+
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
@@ -109,11 +118,12 @@ console.log(config.getRedacted());
 }
 ```
 
-# Options
+## Options
 - redactedString
 - typeTransform
 - getEnv
-
+- *nullPassThru* (todo): map null or 'null' to null
+- *undefinedPassThru* (todo): map undefined or 'undefined' to undefined
 ```js
 const options = {
   redactedString: 'XXXXXXXXXX',
@@ -126,12 +136,10 @@ const options = {
 const config = envConfigMap(configMap, options);
 ```
 
-# configMap props
+## Props for configMap
 - default
 - type
 - isSecret
-- *nullPassThru* (todo): map null or 'null' to null
-- *undefinedPassThru* (todo): map undefined or 'undefined' to undefined
 
 ```js
 const configMap = {
