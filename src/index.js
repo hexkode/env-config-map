@@ -34,7 +34,7 @@ const envConfigMap = (configMap, options = {}) => {
     config[key] = mergedOptions.getEnv(key) || keyOptions.default;
 
     // handle type transform.  default type to string.
-    // if not matching type transform is found, value is passed through
+    // if no matching type transform is found, value is passed thru
     const type = keyOptions.type || 'string';
     if (typeof mergedOptions.typeTransform[type] === 'function') {
       config[key] = mergedOptions.typeTransform[type](config[key]);

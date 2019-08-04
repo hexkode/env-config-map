@@ -22,7 +22,7 @@ Object {
   "LOG_LEVEL": "info",
   "MISSING_TYPE_TRANSFORM": "pass thru          ",
   "NODE_ENV": "test",
-  "SERVER_ADDRESS": undefined,
+  "SERVER_HOST": undefined,
   "SERVER_PORT": 8080,
   "getDefaultOptions": [Function],
   "getOptions": [Function],
@@ -52,7 +52,7 @@ Object {
   "LOG_LEVEL": "info",
   "MISSING_TYPE_TRANSFORM": "pass thru          ",
   "NODE_ENV": "test",
-  "SERVER_ADDRESS": undefined,
+  "SERVER_HOST": undefined,
   "SERVER_PORT": 8080,
 }
 `;
@@ -80,10 +80,10 @@ Object {
     "_normalize": [Function],
     "arrayCommaDelim": [Function],
     "boolean": [Function],
+    "booleanYesNo": [Function],
     "number": [Function],
     "object": [Function],
     "string": [Function],
-    "yesNoBool": [Function],
   },
 }
 `;

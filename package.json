@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "sandbox": "node sandbox.js"
   },
   "repository": {
@@ -12,12 +13,20 @@
     "url": "git+https://github.com/hexkode/env-config-map.git"
   },
   "keywords": [
-    "config",
-    "conf",
     "env",
     "dotenv",
+    "process.env",
+    ".env",
+    "conf",
+    "config",
+    "configuration",
+    "config map",
+    "config mapping",
     "twelve-factor",
-    "12factor"
+    "twelve factor",
+    "12factor",
+    "type casting",
+    "type conversion"
   ],
   "author": "hexkode",
   "license": "ISC",

@@ -15,11 +15,11 @@ test('baseline test equal expected output', () => {
   const configMap = {
     NODE_ENV: { default: 'development' },
     LOG_LEVEL: { default: 'info' },
-    SERVER_ADDRESS: {},
+    SERVER_HOST: {},
     SERVER_PORT: { default: 80, type: 'number' },
     ENABLE_CORS: { default: false, type: 'boolean' },
     DB_PASSWORD: { isSecret: true },
-    DB_ENABLE_PROFILER: { default: false, type: 'yesNoBool' },
+    DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
     EXAMPLE_OBJECT: { type: 'object' },
     EXAMPLE_ARRAY: { type: 'object' },
     EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
@@ -29,7 +29,7 @@ test('baseline test equal expected output', () => {
   const options = {
     redactedString: 'XXXXXXXXXX',
     typeTransform: {
-      yesNoBool: string => (string === 'yes' ? true : false),
+      booleanYesNo: string => (string === 'yes' ? true : false),
     },
   };
 

@@ -4,13 +4,13 @@
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
 - Supported types:
+  - string (default)
   - number
   - boolean
   - object
   - arrayCommaDelim
-  - *also supports custom type*
+  - *supports custom types*
 - isSecret flag to redact value for logging. *(see getRedacted())*
-- For type conversion, only 
 
 # Run sandbox example
 ```console
@@ -41,11 +41,11 @@ process.env.MISSING_TYPE_TRANSFORM = 'pass thru          ';
 const configMap = {
   NODE_ENV: { default: 'development' },
   LOG_LEVEL: { default: 'info' },
-  SERVER_ADDRESS: {},
+  SERVER_HOST: {},
   SERVER_PORT: { default: 80, type: 'number' },
   ENABLE_CORS: { default: false, type: 'boolean' },
   DB_PASSWORD: { isSecret: true },
-  DB_ENABLE_PROFILER: { default: false, type: 'yesNoBool' },
+  DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
   EXAMPLE_OBJECT: { type: 'object' },
   EXAMPLE_OBJECT_INVALID: { type: 'object' },
   EXAMPLE_ARRAY: { type: 'object' },
@@ -57,7 +57,7 @@ const configMap = {
 const options = {
   redactedString: 'XXXXXXXXXX',
   typeTransform: {
-    yesNoBool: string => (string === 'yes' ? true : false),
+    booleanYesNo: string => (string === 'yes' ? true : false),
   },
 };
 
@@ -75,7 +75,7 @@ console.log(config.getRedacted());
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
-  SERVER_ADDRESS: undefined,
+  SERVER_HOST: undefined,
   SERVER_PORT: 8080,
   ENABLE_CORS: true,
   DB_PASSWORD: 'mypassword',
@@ -95,7 +95,7 @@ console.log(config.getRedacted());
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
-  SERVER_ADDRESS: undefined,
+  SERVER_HOST: undefined,
   SERVER_PORT: 8080,
   ENABLE_CORS: true,
   DB_PASSWORD: 'XXXXXXXXXX',
@@ -117,8 +117,8 @@ console.log(config.getRedacted());
 const options = {
   redactedString: 'XXXXXXXXXX',
   typeTransform: {
-    // define custom type "yesNoBool"
-    yesNoBool: string => (string === 'yes' ? true : false),
+    // define custom type "booleanYesNo"
+    booleanYesNo: string => (string === 'yes' ? true : false),
   },
   getEnv: key => process.env[key];
 }
@@ -136,6 +136,6 @@ const config = envConfigMap(configMap, options);
 const configMap = {
   SERVER_PORT: { default: 80, type: 'number' },
   DB_PASSWORD: { isSecret: true },
-  DB_ENABLE_PROFILER: { default: false, type: 'yesNoBool' },
+  DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
 };
 ```

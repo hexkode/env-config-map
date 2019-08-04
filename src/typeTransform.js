@@ -21,8 +21,10 @@ const boolean = string => {
 
   if (normalized === 'true' || normalized === '1') {
     return true;
-  } else {
+  } else if (normalized === 'false' || normalized === '0') {
     return false;
+  } else {
+    return undefined;
   }
 };
 
