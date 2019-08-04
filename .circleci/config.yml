@@ -34,8 +34,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: npm run test:coverage
+      - run: npm run circleci
 
-      # Collect Coverage Reports
+      Collect Coverage Reports
       - store_artifacts:
           path: coverage

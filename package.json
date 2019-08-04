@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "circleci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "sandbox": "node sandbox.js"
   },
   "repository": {
@@ -35,6 +36,7 @@
   },
   "homepage": "https://github.com/hexkode/env-config-map#readme",
   "devDependencies": {
+    "coveralls": "3.0.5",
     "jest": "24.8.0"
   }
 }
