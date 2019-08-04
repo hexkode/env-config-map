@@ -1,4 +1,7 @@
-# env-config-map [![CircleCI](https://circleci.com/gh/hexkode/env-config-map.svg?style=svg)](https://circleci.com/gh/hexkode/env-config-map)
+[![CircleCI](https://circleci.com/gh/hexkode/env-config-map.svg?style=svg)](https://circleci.com/gh/hexkode/env-config-map)
+[![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
+
+# env-config-map
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
 - Supported types:
