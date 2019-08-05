@@ -4,9 +4,9 @@
   "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "circleci": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage --verbose",
+    "circleci": "jest --verbose --coverage --coverageReporters=text-lcov | coveralls",
     "sandbox": "node sandbox.js"
   },
   "repository": {

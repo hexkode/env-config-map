@@ -45,7 +45,6 @@ const envConfigMap = (configMap, options = {}) => {
   }
 
   config.getRedacted = () => redacted;
-  config.getDefaultOptions = () => defaultOptions;
   config.getOptions = () => mergedOptions;
 
   return config;

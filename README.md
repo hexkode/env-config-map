@@ -94,7 +94,6 @@ console.log(config);
   EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ],
   MISSING_TYPE_TRANSFORM: 'pass thru          ',
   getRedacted: [Function],
-  getDefaultOptions: [Function],
   getOptions: [Function]
 }
 ```

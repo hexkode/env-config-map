@@ -1,13 +1,13 @@
 const packageJson = require('../package.json');
 
 const string = string => {
-  if (typeof string === 'string') {
-    return string.trim();
-  }
+  if (typeof string === 'string') return string.trim();
   return _normalize(string);
 };
 
 const number = string => {
+  if (typeof string === 'number') return string;
+
   const normalized = _normalize(string);
   if (!normalized) return normalized;
 
@@ -16,6 +16,8 @@ const number = string => {
 };
 
 const boolean = string => {
+  if (typeof string === 'boolean') return string;
+
   const normalized = _normalize(string);
   if (!normalized) return normalized;
 
@@ -29,6 +31,8 @@ const boolean = string => {
 };
 
 const object = string => {
+  if (typeof string === 'object') return string;
+
   const normalized = _normalize(string);
   if (!normalized) return normalized;
 
@@ -50,13 +54,18 @@ const arrayCommaDelim = string => {
   return results.map(result => result.trim());
 };
 
-// normalize to string for type conversion.
-// returns non empty trimmed string or undefined.
-const _normalize = string => {
+/**
+ * normalize any type to string type before transform.
+ * returns a non-empty trimmed string or undefined.
+ *
+ * @param {*} param
+ * @returns {string|undefined}
+ */
+const _normalize = param => {
   let normalized = undefined;
 
-  if (typeof string === 'string') {
-    const trimmed = string.trim();
+  if (typeof param === 'string') {
+    const trimmed = param.trim();
     if (trimmed) {
       normalized = trimmed;
     }

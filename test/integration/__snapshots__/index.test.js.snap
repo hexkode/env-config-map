@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`baseline test equal expected output 1`] = `
+exports[`integration test baseline should equal expected output 1`] = `
 Object {
   "DB_ENABLE_PROFILER": true,
   "DB_PASSWORD": "mypassword",
@@ -24,13 +24,12 @@ Object {
   "NODE_ENV": "test",
   "SERVER_HOST": undefined,
   "SERVER_PORT": 8080,
-  "getDefaultOptions": [Function],
   "getOptions": [Function],
   "getRedacted": [Function],
 }
 `;
 
-exports[`baseline test equal expected output 2`] = `
+exports[`integration test baseline should equal expected output 2`] = `
 Object {
   "DB_ENABLE_PROFILER": true,
   "DB_PASSWORD": "XXXXXXXXXX",
@@ -57,7 +56,7 @@ Object {
 }
 `;
 
-exports[`baseline test equal expected output 3`] = `
+exports[`integration test getOptions() should equal to default options when no options are provided 1`] = `
 Object {
   "getEnv": [Function],
   "redactedString": "**********",
@@ -65,22 +64,6 @@ Object {
     "_normalize": [Function],
     "arrayCommaDelim": [Function],
     "boolean": [Function],
-    "number": [Function],
-    "object": [Function],
-    "string": [Function],
-  },
-}
-`;
-
-exports[`baseline test equal expected output 4`] = `
-Object {
-  "getEnv": [Function],
-  "redactedString": "XXXXXXXXXX",
-  "typeTransform": Object {
-    "_normalize": [Function],
-    "arrayCommaDelim": [Function],
-    "boolean": [Function],
-    "booleanYesNo": [Function],
     "number": [Function],
     "object": [Function],
     "string": [Function],
