@@ -16,7 +16,7 @@
 
 ## Installation
 ```console
-npm install commander
+npm install env-config-map
 ```
 
 ## Run sandbox example
