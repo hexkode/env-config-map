@@ -160,6 +160,6 @@ const configMap = {
   SERVER_PORT: { default: 80, type: 'number' },
   DB_PASSWORD: { isSecret: true },
   DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
-  PASSTHRU_DISALBED: { nullPassthru: false, undefinedPassthru: false },
+  PASSTHRU_DISABLED: { nullPassthru: false, undefinedPassthru: false },
 };
 ```

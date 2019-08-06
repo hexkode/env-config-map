@@ -78,9 +78,27 @@ const _normalize = value => {
   return normalized;
 };
 
-const _undefined = value => (value === 'undefined' ? undefined : value);
+const _undefined = value => {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (trimmed === 'undefined') {
+      return undefined;
+    }
+  }
 
-const _null = value => (value === 'null' ? null : value);
+  return value;
+};
+
+const _null = value => {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (trimmed === 'null') {
+      return null;
+    }
+  }
+
+  return value;
+};
 
 module.exports = {
   string,

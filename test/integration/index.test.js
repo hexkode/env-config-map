@@ -8,36 +8,8 @@ describe('envConfigMap', () => {
     });
   });
 
-  describe('when nullPasthru option', () => {
-    describe('is enabled', () => {
-      test('"null" should equal to null', () => {
-        process.env.FIXTURE = 'null';
-        const configMap = {
-          FIXTURE: {},
-        };
-
-        const config = envConfigMap(configMap);
-
-        expect(config.FIXTURE).toBeNull();
-      });
-    });
-
-    describe('is disabled', () => {
-      test('"null" should equal to "null', () => {
-        process.env.FIXTURE = 'null';
-        const configMap = {
-          FIXTURE: { nullPassthru: false },
-        };
-
-        const config = envConfigMap(configMap);
-
-        expect(config.FIXTURE).toStrictEqual('null');
-      });
-    });
-  });
-
   describe('when undefinedPasthru option', () => {
-    describe('is enabled', () => {
+    describe('is enabled for default type string', () => {
       test('"undefined" should equal to undefined', () => {
         process.env.FIXTURE = 'undefined';
         const configMap = {
@@ -50,7 +22,7 @@ describe('envConfigMap', () => {
       });
     });
 
-    describe('is disabled', () => {
+    describe('is disabled for default type string', () => {
       test('"undefined" should equal to "undefined"', () => {
         process.env.FIXTURE = 'undefined';
         const configMap = {
@@ -60,6 +32,56 @@ describe('envConfigMap', () => {
         const config = envConfigMap(configMap);
 
         expect(config.FIXTURE).toStrictEqual('undefined');
+      });
+    });
+  });
+
+  describe('when nullPasthru option', () => {
+    describe('is enabled for type number', () => {
+      test('"null" should equal to null', () => {
+        process.env.FIXTURE = 'null';
+        const configMap = {
+          FIXTURE: { type: 'number' },
+        };
+
+        const config = envConfigMap(configMap);
+
+        expect(config.FIXTURE).toBeNull();
+      });
+
+      test('"3" should equal to 3', () => {
+        process.env.FIXTURE = '3';
+        const configMap = {
+          FIXTURE: { type: 'number' },
+        };
+
+        const config = envConfigMap(configMap);
+
+        expect(config.FIXTURE).toStrictEqual(3);
+      });
+    });
+
+    describe('is disabled for type number', () => {
+      test('"null" should equal to undefined', () => {
+        process.env.FIXTURE = 'null';
+        const configMap = {
+          FIXTURE: { type: 'number', nullPassthru: false },
+        };
+
+        const config = envConfigMap(configMap);
+
+        expect(config.FIXTURE).toBeUndefined();
+      });
+
+      test('"3" should equal to 3', () => {
+        process.env.FIXTURE = '3';
+        const configMap = {
+          FIXTURE: { type: 'number', nullPassthru: false },
+        };
+
+        const config = envConfigMap(configMap);
+
+        expect(config.FIXTURE).toStrictEqual(3);
       });
     });
   });
