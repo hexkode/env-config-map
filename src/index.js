@@ -1,12 +1,14 @@
-const typeTransform = require('./typeTransform.js');
+const types = require('./types.js');
 const getEnv = key => process.env[key];
+const DEFAULT_REDACTED = '**********';
+const redaction = value => value.replace(/.+/, DEFAULT_REDACTED);
 
 const defaultOptions = {
-  redactedString: '**********',
-  typeTransform,
   getEnv,
-  undefinedPassthru: true,
-  nullPassthru: true,
+  types,
+  redaction,
+  coerceUndefined: true,
+  coerceNull: true,
 };
 
 /**
@@ -16,54 +18,56 @@ const defaultOptions = {
  * @param {*} configMap
  */
 const envConfigMap = (configMap, options = {}) => {
-  // TODO: manual merge for now.  use deep merge lib?
   const mergedOptions = {
-    redactedString: options.redactedString || defaultOptions.redactedString,
-    typeTransform: {
-      ...defaultOptions.typeTransform,
-      ...options.typeTransform,
+    ...defaultOptions,
+    ...options,
+    types: {
+      ...defaultOptions.types,
+      ...options.types,
     },
-    getEnv: options.getEnv || defaultOptions.getEnv,
-    undefinedPassthru: options.undefinedPassthru || defaultOptions.undefinedPassthru,
-    nullPassthru: options.undefinedPassthru || defaultOptions.undefinedPassthru,
   };
 
   const config = {};
   const redacted = {};
 
   for (const key in configMap) {
-    const keyOptions = configMap[key];
+    const keyProps = configMap[key];
 
     // map to env and handle defaults
-    config[key] = mergedOptions.getEnv(key) || keyOptions.default;
+    config[key] = mergedOptions.getEnv(key) || keyProps.default;
 
     // undefined passthru
-    let undefinedPassthru = mergedOptions.undefinedPassthru;
-    if (typeof keyOptions.undefinedPassthru === 'boolean') {
-      undefinedPassthru = keyOptions.undefinedPassthru;
+    let coerceUndefined = mergedOptions.coerceUndefined;
+    if (typeof keyProps.coerceUndefined === 'boolean') {
+      coerceUndefined = keyProps.coerceUndefined;
     }
-    if (undefinedPassthru === true) {
-      config[key] = typeTransform._undefined(config[key]);
+    if (coerceUndefined === true) {
+      config[key] = types._undefined(config[key]);
     }
 
     // null passthru
-    let nullPassthru = mergedOptions.nullPassthru;
-    if (typeof keyOptions.nullPassthru === 'boolean') {
-      nullPassthru = keyOptions.nullPassthru;
+    let coerceNull = mergedOptions.coerceNull;
+    if (typeof keyProps.coerceNull === 'boolean') {
+      coerceNull = keyProps.coerceNull;
     }
-    if (nullPassthru === true) {
-      config[key] = typeTransform._null(config[key]);
+    if (coerceNull === true) {
+      config[key] = types._null(config[key]);
     }
 
     // handle type transform.  default type to string.
-    // if no matching type transform is found, value is passed thru
-    const type = keyOptions.type || 'string';
-    if (typeof mergedOptions.typeTransform[type] === 'function') {
-      config[key] = mergedOptions.typeTransform[type](config[key]);
+    // if no matching type transform is found, value is passed thru.
+    const type = keyProps.type || 'string';
+    if (typeof mergedOptions.types[type] === 'function') {
+      config[key] = mergedOptions.types[type](config[key]);
     }
 
     // generate redacted config
-    redacted[key] = keyOptions.isSecret && config[key] ? mergedOptions.redactedString : config[key];
+    if (keyProps.redact === true && config[key]) {
+      // handle error
+      redacted[key] = mergedOptions.redaction(config[key]);
+    } else {
+      redacted[key] = config[key];
+    }
   }
 
   config.getRedacted = () => redacted;

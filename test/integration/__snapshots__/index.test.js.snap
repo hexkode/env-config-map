@@ -2,10 +2,11 @@
 
 exports[`envConfigMap getOptions() should equal to default options when no options are provided 1`] = `
 Object {
+  "coerceNull": true,
+  "coerceUndefined": true,
   "getEnv": [Function],
-  "nullPassthru": true,
-  "redactedString": "**********",
-  "typeTransform": Object {
+  "redaction": [Function],
+  "types": Object {
     "_normalize": [Function],
     "_null": [Function],
     "_undefined": [Function],
@@ -15,12 +16,14 @@ Object {
     "object": [Function],
     "string": [Function],
   },
-  "undefinedPassthru": true,
 }
 `;
 
 exports[`envConfigMap sandbox test should equal expected output 1`] = `
 Object {
+  "COERCE_NULL": null,
+  "COERCE_NULL_DISABLED": "null",
+  "COERCE_UNDEFINED": undefined,
   "DB_ENABLE_PROFILER": true,
   "DB_PASSWORD": "mypassword",
   "ENABLE_CORS": true,
@@ -39,14 +42,11 @@ Object {
     "timeout": 1000,
   },
   "EXAMPLE_OBJECT_INVALID": undefined,
+  "INVALID_TYPE": "passthru          ",
   "LOG_LEVEL": "info",
-  "MISSING_TYPE_TRANSFORM": "passthru          ",
   "NODE_ENV": "test",
-  "NULL_PASSTHRU": null,
-  "NULL_PASSTHRU_DISALBED": "null",
   "SERVER_HOST": undefined,
   "SERVER_PORT": 8080,
-  "UNDEFINED_PASSTHRU": undefined,
   "getOptions": [Function],
   "getRedacted": [Function],
 }
@@ -54,6 +54,9 @@ Object {
 
 exports[`envConfigMap sandbox test should equal expected output 2`] = `
 Object {
+  "COERCE_NULL": null,
+  "COERCE_NULL_DISABLED": "null",
+  "COERCE_UNDEFINED": undefined,
   "DB_ENABLE_PROFILER": true,
   "DB_PASSWORD": "XXXXXXXXXX",
   "ENABLE_CORS": true,
@@ -72,13 +75,10 @@ Object {
     "timeout": 1000,
   },
   "EXAMPLE_OBJECT_INVALID": undefined,
+  "INVALID_TYPE": "passthru          ",
   "LOG_LEVEL": "info",
-  "MISSING_TYPE_TRANSFORM": "passthru          ",
   "NODE_ENV": "test",
-  "NULL_PASSTHRU": null,
-  "NULL_PASSTHRU_DISALBED": "null",
   "SERVER_HOST": undefined,
   "SERVER_PORT": 8080,
-  "UNDEFINED_PASSTHRU": undefined,
 }
 `;
