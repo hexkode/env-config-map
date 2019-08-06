@@ -1,9 +1,9 @@
 # env-config-map 
 
 [![npm](https://img.shields.io/npm/v/env-config-map)](https://www.npmjs.com/package/env-config-map)
-![CircleCI](https://img.shields.io/circleci/build/github/hexkode/env-config-map)
+[![CircleCI](https://img.shields.io/circleci/build/github/hexkode/env-config-map)](https://circleci.com/gh/hexkode/env-config-map)
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
-![David](https://img.shields.io/david/hexkode/env-config-map)
+[![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
