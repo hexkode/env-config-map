@@ -1,6 +1,6 @@
 {
   "name": "env-config-map",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
   "main": "index.js",
   "scripts": {
