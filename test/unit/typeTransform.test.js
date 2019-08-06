@@ -37,6 +37,10 @@ describe('type transform', () => {
     test('undefined to equal undefined', () => {
       expect(typeTransform.string(undefined)).toBeUndefined();
     });
+
+    test('null to equal null', () => {
+      expect(typeTransform.string(null)).toBeNull();
+    });
   });
 
   describe('number', () => {
@@ -79,6 +83,10 @@ describe('type transform', () => {
     test('undefined to equal undefined', () => {
       expect(typeTransform.number(undefined)).toBeUndefined();
     });
+
+    test('null to equal null', () => {
+      expect(typeTransform.number(null)).toBeNull();
+    });
   });
 
   describe('boolean', () => {
@@ -113,6 +121,10 @@ describe('type transform', () => {
     test('undefined to equal undefined', () => {
       expect(typeTransform.boolean(undefined)).toBeUndefined();
     });
+
+    test('null to equal null', () => {
+      expect(typeTransform.boolean(null)).toBeNull();
+    });
   });
 
   describe('object', () => {
@@ -143,6 +155,10 @@ describe('type transform', () => {
     test('undefined to equal undefined', () => {
       expect(typeTransform.object(undefined)).toBeUndefined();
     });
+
+    test('null to equal null', () => {
+      expect(typeTransform.object(null)).toBeNull();
+    });
   });
 
   describe('arrayCommaDelim', () => {
@@ -156,6 +172,10 @@ describe('type transform', () => {
 
     test('undefined to equal undefined', () => {
       expect(typeTransform.arrayCommaDelim(undefined)).toBeUndefined();
+    });
+
+    test('null to equal null', () => {
+      expect(typeTransform.arrayCommaDelim(null)).toBeNull();
     });
   });
 
@@ -172,8 +192,12 @@ describe('type transform', () => {
       expect(typeTransform._normalize(true)).toBeUndefined();
     });
 
-    test('null to equal undefined', () => {
-      expect(typeTransform._normalize(null)).toBeUndefined();
+    test('undefined to equal undefined', () => {
+      expect(typeTransform._normalize(undefined)).toBeUndefined();
+    });
+
+    test('null to equal null', () => {
+      expect(typeTransform._normalize(null)).toBeNull();
     });
 
     test('"" to equal undefined', () => {

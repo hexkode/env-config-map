@@ -5,6 +5,8 @@ const defaultOptions = {
   redactedString: '**********',
   typeTransform,
   getEnv,
+  undefinedPassthru: true,
+  nullPassthru: true,
 };
 
 /**
@@ -22,6 +24,8 @@ const envConfigMap = (configMap, options = {}) => {
       ...options.typeTransform,
     },
     getEnv: options.getEnv || defaultOptions.getEnv,
+    undefinedPassthru: options.undefinedPassthru || defaultOptions.undefinedPassthru,
+    nullPassthru: options.undefinedPassthru || defaultOptions.undefinedPassthru,
   };
 
   const config = {};
@@ -32,6 +36,24 @@ const envConfigMap = (configMap, options = {}) => {
 
     // map to env and handle defaults
     config[key] = mergedOptions.getEnv(key) || keyOptions.default;
+
+    // undefined passthru
+    let undefinedPassthru = mergedOptions.undefinedPassthru;
+    if (typeof keyOptions.undefinedPassthru === 'boolean') {
+      undefinedPassthru = keyOptions.undefinedPassthru;
+    }
+    if (undefinedPassthru === true) {
+      config[key] = typeTransform._undefined(config[key]);
+    }
+
+    // null passthru
+    let nullPassthru = mergedOptions.nullPassthru;
+    if (typeof keyOptions.nullPassthru === 'boolean') {
+      nullPassthru = keyOptions.nullPassthru;
+    }
+    if (nullPassthru === true) {
+      config[key] = typeTransform._null(config[key]);
+    }
 
     // handle type transform.  default type to string.
     // if no matching type transform is found, value is passed thru

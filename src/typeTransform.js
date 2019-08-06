@@ -55,17 +55,21 @@ const arrayCommaDelim = string => {
 };
 
 /**
- * normalize any type to string type before transform.
- * returns a non-empty trimmed string or undefined.
+ * normalize any type to non-empty trimmed string before transform.
+ * undefined and null are passed thru.
  *
- * @param {*} param
- * @returns {string|undefined}
+ * @param {*} value
+ * @param {string|null|undefined} options
  */
-const _normalize = param => {
+const _normalize = value => {
   let normalized = undefined;
 
-  if (typeof param === 'string') {
-    const trimmed = param.trim();
+  if (value === undefined || value === null) {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
     if (trimmed) {
       normalized = trimmed;
     }
@@ -74,6 +78,10 @@ const _normalize = param => {
   return normalized;
 };
 
+const _undefined = value => (value === 'undefined' ? undefined : value);
+
+const _null = value => (value === 'null' ? null : value);
+
 module.exports = {
   string,
   number,
@@ -81,4 +89,6 @@ module.exports = {
   object,
   arrayCommaDelim,
   _normalize,
+  _undefined,
+  _null,
 };
