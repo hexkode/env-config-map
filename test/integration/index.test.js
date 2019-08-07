@@ -126,7 +126,7 @@ describe('envConfigMap', () => {
       // customize with options
       const options = {
         types: {
-          booleanYesNo: string => (string === 'yes' ? true : false),
+          booleanYesNo: value => value === 'yes',
         },
         redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
       };

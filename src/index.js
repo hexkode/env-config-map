@@ -1,7 +1,9 @@
+// const packageJson = require('../package.json');
 const types = require('./types.js');
+
 const getEnv = key => process.env[key];
 const DEFAULT_REDACTED = '**********';
-const redaction = value => value.replace(/.+/, DEFAULT_REDACTED);
+const redaction = () => DEFAULT_REDACTED;
 
 const defaultOptions = {
   getEnv,
@@ -16,8 +18,9 @@ const defaultOptions = {
  * Also generates a redacted version of the config for logging.
  *
  * @param {*} configMap
+ * @param {*} options
  */
-const envConfigMap = (configMap, options = {}) => {
+const envConfigMap = (configMap = {}, options = {}) => {
   const mergedOptions = {
     ...defaultOptions,
     ...options,
@@ -30,45 +33,40 @@ const envConfigMap = (configMap, options = {}) => {
   const config = {};
   const redacted = {};
 
-  for (const key in configMap) {
+  Object.keys(configMap).forEach((key) => {
     const keyProps = configMap[key];
 
     // map to env and handle defaults
-    config[key] = mergedOptions.getEnv(key) || keyProps.default;
+    let keyValue = mergedOptions.getEnv(key) || keyProps.default;
 
     // undefined passthru
-    let coerceUndefined = mergedOptions.coerceUndefined;
-    if (typeof keyProps.coerceUndefined === 'boolean') {
-      coerceUndefined = keyProps.coerceUndefined;
-    }
+    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : mergedOptions.coerceUndefined;
     if (coerceUndefined === true) {
-      config[key] = types._undefined(config[key]);
+      keyValue = types.coerceUndefined(keyValue);
     }
 
     // null passthru
-    let coerceNull = mergedOptions.coerceNull;
-    if (typeof keyProps.coerceNull === 'boolean') {
-      coerceNull = keyProps.coerceNull;
-    }
+    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : mergedOptions.coerceNull;
     if (coerceNull === true) {
-      config[key] = types._null(config[key]);
+      keyValue = types.coerceNull(keyValue);
     }
 
     // handle type transform.  default type to string.
     // if no matching type transform is found, value is passed thru.
     const type = keyProps.type || 'string';
     if (typeof mergedOptions.types[type] === 'function') {
-      config[key] = mergedOptions.types[type](config[key]);
+      keyValue = mergedOptions.types[type](keyValue);
     }
 
     // generate redacted config
-    if (keyProps.redact === true && config[key]) {
-      // handle error
-      redacted[key] = mergedOptions.redaction(config[key]);
-    } else {
-      redacted[key] = config[key];
+    let keyValueRedacted = keyValue;
+    if (keyProps.redact === true && keyValue) {
+      keyValueRedacted = mergedOptions.redaction(keyValue);
     }
-  }
+
+    config[key] = keyValue;
+    redacted[key] = keyValueRedacted;
+  });
 
   config.getRedacted = () => redacted;
   config.getOptions = () => mergedOptions;

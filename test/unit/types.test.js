@@ -144,7 +144,7 @@ describe('type', () => {
 
     test('stringify object to equal object', () => {
       expect(types.object('{ "a": 1, "b": "str1", "c": [], "d": true, "e": { "f": [ 2 , 3, "str2"] } }')).toStrictEqual(
-        objectFixture
+        objectFixture,
       );
     });
 
@@ -179,57 +179,57 @@ describe('type', () => {
     });
   });
 
-  describe('_normalize', () => {
+  describe('normalize', () => {
     test('{} to equal undefined', () => {
-      expect(types._normalize({})).toBeUndefined();
+      expect(types.normalize({})).toBeUndefined();
     });
 
     test('[] to equal undefined', () => {
-      expect(types._normalize([])).toBeUndefined();
+      expect(types.normalize([])).toBeUndefined();
     });
 
     test('true to equal undefined', () => {
-      expect(types._normalize(true)).toBeUndefined();
+      expect(types.normalize(true)).toBeUndefined();
     });
 
     test('undefined to equal undefined', () => {
-      expect(types._normalize(undefined)).toBeUndefined();
+      expect(types.normalize(undefined)).toBeUndefined();
     });
 
     test('null to equal null', () => {
-      expect(types._normalize(null)).toBeNull();
+      expect(types.normalize(null)).toBeNull();
     });
 
     test('"" to equal undefined', () => {
-      expect(types._normalize('')).toBeUndefined();
+      expect(types.normalize('')).toBeUndefined();
     });
 
     test('"   " to equal undefined', () => {
-      expect(types._normalize('   ')).toBeUndefined();
+      expect(types.normalize('   ')).toBeUndefined();
     });
 
     test('"0" to equal "0"', () => {
-      expect(types._normalize('0')).toStrictEqual('0');
+      expect(types.normalize('0')).toStrictEqual('0');
     });
 
     test('"3.14" to equal "3.14"', () => {
-      expect(types._normalize('3.14')).toStrictEqual('3.14');
+      expect(types.normalize('3.14')).toStrictEqual('3.14');
     });
 
     test('"12345" to equal "12345"', () => {
-      expect(types._normalize('12345')).toStrictEqual('12345');
+      expect(types.normalize('12345')).toStrictEqual('12345');
     });
 
     test('"   12345   " to equal "12345"', () => {
-      expect(types._normalize('   12345   ')).toStrictEqual('12345');
+      expect(types.normalize('   12345   ')).toStrictEqual('12345');
     });
 
     test('"testString" to equal "testString"', () => {
-      expect(types._normalize('testString')).toStrictEqual('testString');
+      expect(types.normalize('testString')).toStrictEqual('testString');
     });
 
     test('"   testStringTrim   " to equal "testStringTrim"', () => {
-      expect(types._normalize('   testStringTrim   ')).toStrictEqual('testStringTrim');
+      expect(types.normalize('   testStringTrim   ')).toStrictEqual('testStringTrim');
     });
   });
 });

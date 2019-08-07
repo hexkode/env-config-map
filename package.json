@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --verbose",
     "test:coverage": "jest --coverage --verbose",
-    "circleci": "jest --verbose --coverage --coverageReporters=text-lcov | coveralls",
+    "test:circleci": "jest --verbose --coverage --coverageReporters=text-lcov | coveralls",
+    "lint": "eslint src/** test/** sandbox.js",
     "sandbox": "node sandbox.js"
   },
   "repository": {
@@ -15,19 +16,20 @@
   },
   "keywords": [
     "env",
-    "dotenv",
-    "process.env",
     ".env",
+    "dotenv",
     "conf",
     "config",
     "configuration",
-    "config map",
-    "config mapping",
+    "map",
+    "mapping",
+    "type",
+    "casting",
+    "transform",
+    "coerce",
+    "redact",
     "twelve-factor",
-    "twelve factor",
-    "12factor",
-    "type casting",
-    "type conversion"
+    "12factor"
   ],
   "author": "hexkode",
   "license": "ISC",
@@ -37,6 +39,10 @@
   "homepage": "https://github.com/hexkode/env-config-map#readme",
   "devDependencies": {
     "coveralls": "3.0.5",
+    "eslint": "5.3.0",
+    "eslint-config-airbnb-base": "13.2.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "22.14.1",
     "jest": "24.8.0"
   }
 }

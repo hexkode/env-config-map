@@ -72,7 +72,7 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: string => (string === 'yes' ? true : false),
+    booleanYesNo: value => value === 'yes',
   },
   redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
 };
@@ -134,16 +134,16 @@ console.log(config.getRedacted());
 - redaction
 - types
 - getEnv
-- nullPassthru (default: true)
-- undefinedPassthru (default: true)
+- coerceNull (default: true)
+- coerceUndefined (default: true)
 ```js
 const options = {
   getEnv: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: string => (string === 'yes' ? true : false),
+    booleanYesNo: value => value === 'yes',
   },
-  redaction: value => value.replace(/.+/, '**********'),
+  redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,
   coerceUndefined: true,
 };
