@@ -5,10 +5,11 @@ const coerce = {
   null: value => (typeof value === 'string' && value.trim() === 'null' ? null : value),
 };
 
-const cast = (value, transform, options = {}) => {
+const cast = (value, caster, options = {}) => {
   try {
-    const { coerceUndefined = true, coerceNull = true, typePassthru = null } = options;
-    if (typeof transform !== 'function') {
+    const { coerceUndefined = true, coerceNull = true, passthru = null } = options;
+
+    if (typeof caster !== 'function') {
       return value;
     }
 
@@ -22,8 +23,8 @@ const cast = (value, transform, options = {}) => {
       return null;
     }
 
-    // matching type filter
-    if (typePassthru && typeof value === typePassthru) {
+    // passthru filter
+    if (typeof passthru === 'function' && passthru(value) === true) {
       return value;
     }
 
@@ -32,8 +33,8 @@ const cast = (value, transform, options = {}) => {
       return undefined;
     }
 
-    // only string up to this point
-    return transform(value);
+    // string is the only type allowed up to this point
+    return caster(value);
   } catch (err) {
     // console.error(err);
     return undefined;

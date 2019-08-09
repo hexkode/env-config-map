@@ -18,7 +18,7 @@ const defaultOptions = {
  * @param {*} options
  */
 const envConfigMap = (configMap = {}, options = {}) => {
-  const mergedOptions = {
+  const opts = {
     ...defaultOptions,
     ...options,
     types: {
@@ -30,24 +30,37 @@ const envConfigMap = (configMap = {}, options = {}) => {
   const config = {};
   const redacted = {};
 
+  config.getRedacted = () => redacted;
+  config.getOptions = () => opts;
+
   Object.keys(configMap).forEach((key) => {
     const keyProps = configMap[key];
 
     // map to env and handle defaults
-    let keyValue = mergedOptions.getEnv(key) || keyProps.default;
+    let keyValue = opts.getEnv(key);
 
-    // type transform
-    const type = keyProps.type || 'string';
-    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : mergedOptions.coerceUndefined;
-    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : mergedOptions.coerceNull;
-    keyValue = utils.cast(keyValue, mergedOptions.types[type], { coerceUndefined, coerceNull, typePassthru: type });
+    if (keyValue === undefined) {
+      keyValue = keyProps.default;
+    } else {
+      // type transform
+      const keyType = keyProps.type || 'string';
+      const caster = opts.types[keyType];
+
+      const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
+      const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
+      const coercePassthru = value => typeof value === keyType;
+      const passthru = keyProps.passthru || coercePassthru;
+
+      keyValue = utils.cast(keyValue, caster, {
+        coerceUndefined,
+        coerceNull,
+        passthru,
+      });
+    }
 
     config[key] = keyValue;
-    redacted[key] = keyProps.redact === true && keyValue ? mergedOptions.redaction(keyValue) : keyValue;
+    redacted[key] = keyProps.redact === true && keyValue ? opts.redaction(keyValue) : keyValue;
   });
-
-  config.getRedacted = () => redacted;
-  config.getOptions = () => mergedOptions;
 
   return config;
 };

@@ -1,7 +1,7 @@
 // source from .env (optional)
 // require('dotenv').config();
 
-const envConfigMap = require('./index.js');
+const envConfigMap, { defaultOptions } = require('./index.js');
 
 // set fixture values for sandbox example
 process.env.NODE_ENV = 'test';
