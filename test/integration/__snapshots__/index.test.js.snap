@@ -9,9 +9,6 @@ Object {
   "types": Object {
     "arrayCommaDelim": [Function],
     "boolean": [Function],
-    "coerceNull": [Function],
-    "coerceUndefined": [Function],
-    "normalize": [Function],
     "number": [Function],
     "object": [Function],
     "string": [Function],

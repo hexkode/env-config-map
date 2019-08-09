@@ -1,9 +1,6 @@
 // const packageJson = require('../package.json');
 const types = require('./types.js');
-
-const getEnv = key => process.env[key];
-const DEFAULT_REDACTED = '**********';
-const redaction = () => DEFAULT_REDACTED;
+const { cast, getEnv, redaction } = require('./utils.js');
 
 const defaultOptions = {
   getEnv,
@@ -39,33 +36,14 @@ const envConfigMap = (configMap = {}, options = {}) => {
     // map to env and handle defaults
     let keyValue = mergedOptions.getEnv(key) || keyProps.default;
 
-    // undefined passthru
-    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : mergedOptions.coerceUndefined;
-    if (coerceUndefined === true) {
-      keyValue = types.coerceUndefined(keyValue);
-    }
-
-    // null passthru
-    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : mergedOptions.coerceNull;
-    if (coerceNull === true) {
-      keyValue = types.coerceNull(keyValue);
-    }
-
-    // handle type transform.  default type to string.
-    // if no matching type transform is found, value is passed thru.
+    // type transform
     const type = keyProps.type || 'string';
-    if (typeof mergedOptions.types[type] === 'function') {
-      keyValue = mergedOptions.types[type](keyValue);
-    }
-
-    // generate redacted config
-    let keyValueRedacted = keyValue;
-    if (keyProps.redact === true && keyValue) {
-      keyValueRedacted = mergedOptions.redaction(keyValue);
-    }
+    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : mergedOptions.coerceUndefined;
+    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : mergedOptions.coerceNull;
+    keyValue = cast(keyValue, mergedOptions.types[type], { coerceUndefined, coerceNull, typePassthru: type });
 
     config[key] = keyValue;
-    redacted[key] = keyValueRedacted;
+    redacted[key] = keyProps.redact === true && keyValue ? mergedOptions.redaction(keyValue) : keyValue;
   });
 
   config.getRedacted = () => redacted;
