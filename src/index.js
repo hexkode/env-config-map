@@ -1,11 +1,11 @@
 // const packageJson = require('../package.json');
 const types = require('./types.js');
-const { cast, getEnv, redaction } = require('./utils.js');
+const utils = require('./utils.js');
 
 const defaultOptions = {
-  getEnv,
+  getEnv: utils.getEnv,
   types,
-  redaction,
+  redaction: utils.redaction,
   coerceUndefined: true,
   coerceNull: true,
 };
@@ -40,7 +40,7 @@ const envConfigMap = (configMap = {}, options = {}) => {
     const type = keyProps.type || 'string';
     const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : mergedOptions.coerceUndefined;
     const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : mergedOptions.coerceNull;
-    keyValue = cast(keyValue, mergedOptions.types[type], { coerceUndefined, coerceNull, typePassthru: type });
+    keyValue = utils.cast(keyValue, mergedOptions.types[type], { coerceUndefined, coerceNull, typePassthru: type });
 
     config[key] = keyValue;
     redacted[key] = keyProps.redact === true && keyValue ? mergedOptions.redaction(keyValue) : keyValue;
@@ -53,3 +53,6 @@ const envConfigMap = (configMap = {}, options = {}) => {
 };
 
 module.exports = envConfigMap;
+module.exports.defaultOptions = defaultOptions;
+module.exports.types = types;
+module.exports.utils = utils;
