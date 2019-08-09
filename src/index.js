@@ -48,6 +48,7 @@ const envConfigMap = (configMap = {}, options = {}) => {
 
       const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
       const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
+      /* eslint valid-typeof: "off" */
       const coercePassthru = value => typeof value === keyType;
       const passthru = keyProps.passthru || coercePassthru;
 
