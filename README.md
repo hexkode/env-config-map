@@ -167,3 +167,46 @@ const configMap = {
   COERCE_DISABLED: { coerceNull: false, coerceUndefined: false },
 };
 ```
+
+## App Example 
+.env
+```js
+NODE_ENV=test
+LOG_LEVEL=debug
+APP_NAME=env-config-map
+
+SERVER_PORT=8080
+```
+
+config.js
+```js
+require('dotenv').config();
+const envConfigMap = require('env-config-map');
+
+const configMap = {
+  NODE_ENV: { default: 'development' },
+  LOG_LEVEL: { default: 'info' },
+  APP_NAME: { default: 'noname' },
+  SERVER_HOST: { default: 'localhost' },
+  SERVER_PORT: { default: 80, type: 'number' },
+};
+const config = envConfigMap(configMap);
+
+module.exports = config;
+```
+
+server.js
+```js
+const http = require('http');
+const config = require('./config.js');
+
+http
+  .createServer((req, res) => {
+    res.write(`Hello ${config.APP_NAME}!`);
+    res.end();
+  })
+  .listen(
+    config.SERVER_PORT, 
+    config.SERVER_HOST, 
+    () => console.log(`server listening on ${config.SERVER_HOST}:${config.SERVER_PORT}`));
+```
