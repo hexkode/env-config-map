@@ -48,7 +48,7 @@ describe('types', () => {
       expect(types.number('0.009')).toStrictEqual(0.009);
     });
 
-    test('"invalidNumberString" to equal undefined', () => {
+    test('"invalidNumberString" to equal null', () => {
       expect(types.number('invalidNumberString')).toBeNull();
     });
   });
@@ -70,7 +70,7 @@ describe('types', () => {
       expect(types.boolean('0')).toStrictEqual(false);
     });
 
-    test('"neTrue1False0" to equal undefined', () => {
+    test('"neTrue1False0" to equal null', () => {
       expect(types.boolean('neTrue1False0')).toBeNull();
     });
   });
@@ -87,7 +87,9 @@ describe('types', () => {
     };
 
     test('stringify object to equal object', () => {
-      expect(types.object('{ "a": 1, "b": "str1", "c": [], "d": true, "e": { "f": [ 2 , 3, "str2"] } }')).toStrictEqual(objectFixture);
+      expect(types.object('{ "a": 1, "b": "str1", "c": [], "d": true, "e": { "f": [ 2 , 3, "str2"] } }')).toStrictEqual(
+        objectFixture,
+      );
     });
 
     test('invalid json string to throw exception', () => {
