@@ -1,4 +1,3 @@
-// const packageJson = require('../package.json');
 const types = require('./types.js');
 const utils = require('./utils.js');
 
@@ -40,9 +39,11 @@ const envConfigMap = (configMap = {}, options = {}) => {
     if (keyValue === undefined) {
       keyValue = keyProps.default;
     } else {
+      // defaults to string
       const keyType = keyProps.type || 'string';
       const caster = opts.types[keyType];
 
+      // eslint-disable-next-line max-len
       const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
       const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
 

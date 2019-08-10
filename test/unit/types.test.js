@@ -10,12 +10,12 @@ describe('types', () => {
       expect(types.string('   ')).toStrictEqual('   ');
     });
 
-    test('"stringTest" to equal "stringTest"', () => {
-      expect(types.string('stringTest')).toStrictEqual('stringTest');
+    test('"testStringValue" to equal "testStringValue"', () => {
+      expect(types.string('testStringValue')).toStrictEqual('testStringValue');
     });
 
-    test('"   stringTest   " to equal "   stringTest   "', () => {
-      expect(types.string('   stringTest   ')).toStrictEqual('   stringTest   ');
+    test('"   testStringValuePadded   " to equal "   testStringValuePadded   "', () => {
+      expect(types.string('   testStringValuePadded   ')).toStrictEqual('   testStringValuePadded   ');
     });
 
     test('"0" to equal "0"', () => {
@@ -92,8 +92,8 @@ describe('types', () => {
       );
     });
 
-    test('invalid json string to throw exception', () => {
-      expect(() => types.object('{ "a": 1')).toThrow();
+    test('invalid json string to equal null', () => {
+      expect(types.object('{ "a": 1')).toBeNull();
     });
   });
 

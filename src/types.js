@@ -8,7 +8,13 @@ const boolean = (stringValue) => {
   return null;
 };
 
-const object = stringValue => JSON.parse(stringValue);
+const object = (stringValue) => {
+  try {
+    return JSON.parse(stringValue);
+  } catch (err) {
+    return null;
+  }
+};
 
 const arrayCommaDelim = stringValue => stringValue.split(',').map(result => result.trim());
 

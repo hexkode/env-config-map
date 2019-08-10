@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // source from .env (optional)
 // require('dotenv').config();
 

@@ -31,8 +31,8 @@
     "twelve-factor",
     "12factor"
   ],
-  "author": "hexkode",
-  "license": "ISC",
+  "author": "Joe Yu",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hexkode/env-config-map/issues"
   },

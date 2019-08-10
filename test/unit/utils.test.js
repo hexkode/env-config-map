@@ -1,4 +1,6 @@
-const { cast, DEFAULT_REDACTED, redaction } = require('../../src/utils.js');
+const {
+  cast, DEFAULT_REDACTED, redaction, getEnv, coerce,
+} = require('../../src/utils.js');
 const types = require('../../src/types.js');
 
 describe('utils', () => {
@@ -23,9 +25,6 @@ describe('utils', () => {
     test('when stringValue is undefined it should return undefined', () => {
       expect(cast(undefined)).toBeUndefined();
     });
-    test('any exception should return null', () => {
-      expect(cast('{"invalid": json', types.object)).toBeNull();
-    });
     test('when coerceNull is enabled, stringValue "null" should return null', () => {
       expect(cast('null', types.string)).toBeNull();
     });
@@ -37,6 +36,31 @@ describe('utils', () => {
     });
     test('when coerceUndefined is disabled, stringValue "undefined" should return "undefined"', () => {
       expect(cast('undefined', types.string, { coerceUndefined: false })).toStrictEqual('undefined');
+    });
+  });
+  describe('getEnv', () => {
+    test('FIXTURE_KEY should equal to "testStringValue"', () => {
+      process.env.FIXTURE_KEY = 'testStringValue';
+      expect(getEnv('FIXTURE_KEY')).toStrictEqual('testStringValue');
+    });
+    test('MISSING_KEY should equal to undefined', () => {
+      expect(getEnv('MISSING_KEY')).toBeUndefined();
+    });
+  });
+  describe('coerce.null', () => {
+    test('"null" should equal to null', () => {
+      expect(coerce.null('null')).toBeNull();
+    });
+    test('"testStringValue" should equal to "testStringValue"', () => {
+      expect(coerce.null('testStringValue')).toStrictEqual('testStringValue');
+    });
+  });
+  describe('coerce.undefined', () => {
+    test('"undefined" should equal to undefined', () => {
+      expect(coerce.undefined('undefined')).toBeUndefined();
+    });
+    test('"testStringValue" should equal to "testStringValue"', () => {
+      expect(coerce.undefined('testStringValue')).toStrictEqual('testStringValue');
     });
   });
 });

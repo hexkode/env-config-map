@@ -9,86 +9,86 @@ describe('envConfigMap', () => {
   });
 
   describe('when coerceUndefined option', () => {
-    describe('is enabled for default type string', () => {
+    describe('is enabled for string type', () => {
       test('"undefined" should equal to undefined', () => {
-        process.env.FIXTURE = 'undefined';
+        process.env.FIXTURE_KEY = 'undefined';
         const configMap = {
-          FIXTURE: {},
+          FIXTURE_KEY: {},
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toBeUndefined();
+        expect(config.FIXTURE_KEY).toBeUndefined();
       });
     });
 
-    describe('is disabled for default type string', () => {
+    describe('is disabled for string type', () => {
       test('"undefined" should equal to "undefined"', () => {
-        process.env.FIXTURE = 'undefined';
+        process.env.FIXTURE_KEY = 'undefined';
         const configMap = {
-          FIXTURE: { coerceUndefined: false },
+          FIXTURE_KEY: { coerceUndefined: false },
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toStrictEqual('undefined');
+        expect(config.FIXTURE_KEY).toStrictEqual('undefined');
       });
     });
   });
 
   describe('when coerceNull option', () => {
-    describe('is enabled for type number', () => {
+    describe('is enabled for number type', () => {
       test('"null" should equal to null', () => {
-        process.env.FIXTURE = 'null';
+        process.env.FIXTURE_KEY = 'null';
         const configMap = {
-          FIXTURE: { type: 'number' },
+          FIXTURE_KEY: { type: 'number' },
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toBeNull();
+        expect(config.FIXTURE_KEY).toBeNull();
       });
 
       test('"3" should equal to 3', () => {
-        process.env.FIXTURE = '3';
+        process.env.FIXTURE_KEY = '3';
         const configMap = {
-          FIXTURE: { type: 'number' },
+          FIXTURE_KEY: { type: 'number' },
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toStrictEqual(3);
+        expect(config.FIXTURE_KEY).toStrictEqual(3);
       });
     });
 
-    describe('is disabled for type number', () => {
+    describe('is disabled for number type', () => {
       test('"null" should equal to null', () => {
-        process.env.FIXTURE = 'null';
+        process.env.FIXTURE_KEY = 'null';
         const configMap = {
-          FIXTURE: { type: 'number', coerceNull: false },
+          FIXTURE_KEY: { type: 'number', coerceNull: false },
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toBeNull();
+        expect(config.FIXTURE_KEY).toBeNull();
       });
 
       test('"3" should equal to 3', () => {
-        process.env.FIXTURE = '3';
+        process.env.FIXTURE_KEY = '3';
         const configMap = {
-          FIXTURE: { type: 'number', coerceNull: false },
+          FIXTURE_KEY: { type: 'number', coerceNull: false },
         };
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toStrictEqual(3);
+        expect(config.FIXTURE_KEY).toStrictEqual(3);
       });
     });
   });
 
   describe('sandbox test', () => {
     test('should equal expected output', () => {
-      // set fixture values for sandbox example
+      // set fixture_KEY values for sandbox example
       process.env.NODE_ENV = 'test';
       process.env.SERVER_PORT = '8080';
       process.env.ENABLE_CORS = 'true';

@@ -6,41 +6,35 @@ const coerce = {
 };
 
 /**
- * Will only accept stringValue as string null or undefined.
+ * Will only accept stringValue as string type or undefined.
  * Any other type will immediately return null.
  *
- * @param {*} stringValue
- * @param {*} caster
- * @param {*} options
+ * Cast must be type function or stringValue is immediately returned.
  */
 const cast = (stringValue, caster, options = {}) => {
-  try {
-    const { coerceUndefined = true, coerceNull = true } = options;
+  const { coerceUndefined = true, coerceNull = true } = options;
 
-    if (typeof stringValue !== 'string') {
-      return stringValue === undefined ? undefined : null;
-    }
+  if (typeof stringValue !== 'string') {
+    return stringValue === undefined ? undefined : null;
+  }
 
-    if (typeof caster !== 'function') {
-      return stringValue;
-    }
+  if (typeof caster !== 'function') {
+    return stringValue;
+  }
 
-    if (coerceUndefined === true && coerce.undefined(stringValue) === undefined) {
-      return undefined;
-    }
+  if (coerceUndefined === true && coerce.undefined(stringValue) === undefined) {
+    return undefined;
+  }
 
-    if (coerceNull === true && coerce.null(stringValue) === null) {
-      return null;
-    }
-
-    return caster(stringValue);
-  } catch (err) {
-    // console.error(err);
+  if (coerceNull === true && coerce.null(stringValue) === null) {
     return null;
   }
+
+  return caster(stringValue);
 };
 
 const getEnv = key => process.env[key];
+
 const redaction = () => DEFAULT_REDACTED;
 
 module.exports = {
