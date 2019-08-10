@@ -72,9 +72,9 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: value => value === 'yes',
+    booleanYesNo: stringValue => stringValue === 'yes',
   },
-  redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
+  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };
 
 // map env vars to config using envConfigMap
@@ -141,7 +141,7 @@ const options = {
   getEnv: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: value => value === 'yes',
+    booleanYesNo: stringValue => stringValue === 'yes',
   },
   redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,

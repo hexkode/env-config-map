@@ -41,9 +41,9 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: value => value === 'yes',
+    booleanYesNo: stringValue => stringValue === 'yes',
   },
-  redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
+  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };
 
 // map env vars to config using envConfigMap
