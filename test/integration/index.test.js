@@ -62,7 +62,7 @@ describe('envConfigMap', () => {
     });
 
     describe('is disabled for type number', () => {
-      test('"null" should equal to undefined', () => {
+      test('"null" should equal to null', () => {
         process.env.FIXTURE = 'null';
         const configMap = {
           FIXTURE: { type: 'number', coerceNull: false },
@@ -70,7 +70,7 @@ describe('envConfigMap', () => {
 
         const config = envConfigMap(configMap);
 
-        expect(config.FIXTURE).toBeUndefined();
+        expect(config.FIXTURE).toBeNull();
       });
 
       test('"3" should equal to 3', () => {

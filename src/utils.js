@@ -1,43 +1,42 @@
 const DEFAULT_REDACTED = '**********';
 
 const coerce = {
-  undefined: value => (typeof value === 'string' && value.trim() === 'undefined' ? undefined : value),
-  null: value => (typeof value === 'string' && value.trim() === 'null' ? null : value),
+  undefined: stringValue => (stringValue.trim() === 'undefined' ? undefined : stringValue),
+  null: stringValue => (stringValue.trim() === 'null' ? null : stringValue),
 };
 
-const cast = (value, caster, options = {}) => {
+/**
+ * Will only accept stringValue as string null or undefined.
+ * Any other type will immediately return null.
+ *
+ * @param {*} stringValue
+ * @param {*} caster
+ * @param {*} options
+ */
+const cast = (stringValue, caster, options = {}) => {
   try {
-    const { coerceUndefined = true, coerceNull = true, passthru = null } = options;
+    const { coerceUndefined = true, coerceNull = true } = options;
 
-    if (typeof caster !== 'function') {
-      return value;
+    if (typeof stringValue !== 'string') {
+      return stringValue === undefined ? undefined : null;
     }
 
-    // undefined filter
-    if (coerceUndefined === true && coerce.undefined(value) === undefined) {
+    if (typeof caster !== 'function') {
+      return stringValue;
+    }
+
+    if (coerceUndefined === true && coerce.undefined(stringValue) === undefined) {
       return undefined;
     }
 
-    // null filter
-    if (coerceNull === true && coerce.null(value) === null) {
+    if (coerceNull === true && coerce.null(stringValue) === null) {
       return null;
     }
 
-    // passthru filter
-    if (typeof passthru === 'function' && passthru(value) === true) {
-      return value;
-    }
-
-    // string filter
-    if (typeof value !== 'string') {
-      return undefined;
-    }
-
-    // string is the only type allowed up to this point
-    return caster(value);
+    return caster(stringValue);
   } catch (err) {
     // console.error(err);
-    return undefined;
+    return null;
   }
 };
 

@@ -3,8 +3,8 @@ const types = require('./types.js');
 const utils = require('./utils.js');
 
 const defaultOptions = {
-  getEnv: utils.getEnv,
   types,
+  getEnv: utils.getEnv,
   redaction: utils.redaction,
   coerceUndefined: true,
   coerceNull: true,
@@ -35,27 +35,20 @@ const envConfigMap = (configMap = {}, options = {}) => {
 
   Object.keys(configMap).forEach((key) => {
     const keyProps = configMap[key];
-
-    // map to env and handle defaults
     let keyValue = opts.getEnv(key);
 
     if (keyValue === undefined) {
       keyValue = keyProps.default;
     } else {
-      // type transform
       const keyType = keyProps.type || 'string';
       const caster = opts.types[keyType];
 
       const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
       const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
-      /* eslint valid-typeof: "off" */
-      const coercePassthru = value => typeof value === keyType;
-      const passthru = keyProps.passthru || coercePassthru;
 
       keyValue = utils.cast(keyValue, caster, {
         coerceUndefined,
         coerceNull,
-        passthru,
       });
     }
 

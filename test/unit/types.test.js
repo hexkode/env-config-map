@@ -49,7 +49,7 @@ describe('types', () => {
     });
 
     test('"invalidNumberString" to equal undefined', () => {
-      expect(types.number('invalidNumberString')).toBeUndefined();
+      expect(types.number('invalidNumberString')).toBeNull();
     });
   });
 
@@ -71,7 +71,7 @@ describe('types', () => {
     });
 
     test('"neTrue1False0" to equal undefined', () => {
-      expect(types.boolean('neTrue1False0')).toBeUndefined();
+      expect(types.boolean('neTrue1False0')).toBeNull();
     });
   });
 
