@@ -13,8 +13,7 @@ Maps environment variables to app configs.  Mapping includes commonly encountere
   - `number`
   - `boolean`
   - `object`
-  - `arrayCommaDelim`
-  - *supports custom types*
+  - `arrayCommaDelim`  
 - `redact` option to redact value for logging.
 - `coerceNull` and `coerceUndefined` options to coerce string 'null' to null and string 'undefined' to undefined.
    
@@ -132,11 +131,11 @@ console.log(config.getRedacted());
 ```
 
 ## Options
-- `redaction`: Transforms value to the redacted value.  *function*
-- `types`: Define additional types.  Merges with the default types.  *object*
-- `getEnv`: Getter to get value from key.  *function*
-- `coerceNull`: Coerce string `'null'` to `null`.  *boolean*
-- `coerceUndefined`: Coerce string `'undefined'` to `undefined`.  *boolean*
+- `redaction` : *function* - Transforms value to the redacted value.
+- `types` : *object* -  Define additional types.  Merges with the default types.
+- `getEnv` : *function* - Getter to get value from key.
+- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.
+- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.
 
 ```js
 const options = {
@@ -153,12 +152,16 @@ const config = envConfigMap(configMap, options);
 ```
 
 ## Props for configMap
-- `default`: Default value.  *mixed*
-- `type`: Specify the type.  Cast operation will call the type casting function defined in `options.types`.  *string*
-  - default types: `string`, `number`, `boolean`, `object`, `arrayCommaDelim`
-- `redact`: Redact value with options.redaction().  *boolean*
-- `coerceNull`: Coerce string `'null'` to `null`.  supersedes `options.coerceNull`.  *boolean*
-- `coerceUndefined`: Coerce string `'undefined'` to `undefined`.  supersedes `options.coerceNull`.  *boolean*
+- `default` : *mixed* - Default value.  
+- `type` : *string* - Specify the type.  Cast operation will call the type casting function defined in `options.types`.
+  - `string`
+  - `number`
+  - `boolean`
+  - `object`
+  - `arrayCommaDelim`
+- `redact` : *boolean* - Redact value with options.redaction().
+- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.  supersedes `options.coerceNull`.
+- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.  supersedes `options.coerceNull`.
 
 ```js
 const configMap = {
