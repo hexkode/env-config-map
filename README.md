@@ -8,14 +8,14 @@
 - Map environment variables to app configs. Inspired by the twelve-factor app.
 - Zero dependency.
 - Supported types:
-  - string (default)
-  - number
-  - boolean
-  - object
-  - arrayCommaDelim
+  - `string` (default)
+  - `number`
+  - `boolean`
+  - `object`
+  - `arrayCommaDelim`
   - *supports custom types*
-- redact option to redact value for logging. *(see getRedacted())*
-- coerceNull and coerceUndefined options to allow 'null' as null or 'undefined' as undefined.
+- `redact` option to redact value for logging.
+- `coerceNull` and `coerceUndefined` options to coerce string 'null' to null and string 'undefined' to undefined.
    
 ## Installation
 ```console
@@ -32,7 +32,7 @@ npm run sandbox
 // source from .env (optional)
 // require('dotenv').config();
 
-const envConfigMap = require('./index.js');
+const envConfigMap = require('env-config-map');
 
 // set fixture values for sandbox example
 process.env.NODE_ENV = 'test';
@@ -131,11 +131,12 @@ console.log(config.getRedacted());
 ```
 
 ## Options
-- redaction
-- types
-- getEnv
-- coerceNull (default: true)
-- coerceUndefined (default: true)
+- `redaction`: Transforms value to the redacted value.  *function*
+- `types`: Define additional types.  Merges with the default types.  *object*
+- `getEnv`: Getter to get value from key.  *function*
+- `coerceNull`: Coerce string `'null'` to `null`.  *boolean*
+- `coerceUndefined`: Coerce string `'undefined'` to `undefined`.  *boolean*
+
 ```js
 const options = {
   getEnv: key => process.env[key],
@@ -143,19 +144,20 @@ const options = {
     // define custom type "booleanYesNo"
     booleanYesNo: stringValue => stringValue === 'yes',
   },
-  redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
+  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,
-  coerceUndefined: true,
+  coerceUndefined: false,
 };
 const config = envConfigMap(configMap, options);
 ```
 
 ## Props for configMap
-- default
-- type
-- redact
-- coerceNull
-- coerceUndefined
+- `default`: Default value.  *mixed*
+- `type`: Specify the type.  Cast operation will call the type casting function defined in `options.types`.  *string*
+  - default types: `string`, `number`, `boolean`, `object`, `arrayCommaDelim`
+- `redact`: Redact value with options.redaction().  *boolean*
+- `coerceNull`: Coerce string `'null'` to `null`.  supersedes `options.coerceNull`.  *boolean*
+- `coerceUndefined`: Coerce string `'undefined'` to `undefined`.  supersedes `options.coerceNull`.  *boolean*
 
 ```js
 const configMap = {
