@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to app configs.  Mapping includes commonly encountered patterns such as type casting, setting defaults, coerce null or undefined and redacting secrets from config for logging.
+Maps environment variables to app configs.  Mapping includes commonly encountered patterns such as setting defaults, coerce null and undefined, type casting, and redacting secrets from config for logging.
 
 - Zero dependency.
 - Supported types:
@@ -175,8 +175,8 @@ const configMap = {
 NODE_ENV=test
 LOG_LEVEL=debug
 APP_NAME=env-config-map
-
 SERVER_PORT=8080
+DB_PASSWORD=mypassword
 ```
 
 config.js
@@ -190,6 +190,7 @@ const configMap = {
   APP_NAME: { default: 'noname' },
   SERVER_HOST: { default: 'localhost' },
   SERVER_PORT: { default: 80, type: 'number' },
+  DB_PASSWORD: { redact: true },
 };
 const config = envConfigMap(configMap);
 
@@ -200,6 +201,8 @@ server.js
 ```js
 const http = require('http');
 const config = require('./config.js');
+
+console.log('Configs loaded.', config.getRedacted());
 
 http
   .createServer((req, res) => {
