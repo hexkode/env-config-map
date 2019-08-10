@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to app configs.  Mapping includes commonly encountred patterns such as type casting, setting defaults, coerce null or undefined and redacting secrets from config for logging.
+Maps environment variables to app configs.  Mapping includes commonly encountered patterns such as type casting, setting defaults, coerce null or undefined and redacting secrets from config for logging.
 
 - Zero dependency.
 - Supported types:

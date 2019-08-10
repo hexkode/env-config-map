@@ -1,7 +1,7 @@
 {
   "name": "env-config-map",
   "version": "0.3.0",
-  "description": "Map environment variables to app configs. Inspired by the twelve-factor app.",
+  "description": "Maps environment variables to app configs.  Mapping includes commonly encountered patterns.",
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
