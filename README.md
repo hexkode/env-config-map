@@ -9,7 +9,7 @@ Map environment variables to config object. Mapping options includes common patt
 
 - Zero dependency.
 - Supported types:
-  - `string` _(default)_
+  - `string`
   - `number`
   - `boolean`
   - `object`
@@ -121,7 +121,7 @@ console.log(config.getRedacted());
 - `default` : _mixed_
   - Sets the default value.
 - `type` : _string_ _(default: string)_
-  - Specify the type. Cast operation will call the type casting function defined in `options.types`. Supports the following types:
+  - Specify the type for the key. Cast operation will call the type casting function defined in `options.types`.
     - `string`
     - `number`
     - `boolean`
