@@ -17,7 +17,7 @@ Maps environment variables to config object.  Mapping options includes commonly 
 - `redact` option to redact value for logging.
 - `coerceNull` options to coerce `"null"` to `null`.
 - `coerceUndefined` options to coerce `"undefined"` to `undefined`.
-- Customizable to get input from sources other then `process.env.`
+- Customizable to get input values from sources other then `process.env.`
    
 ## Installation
 ```console
@@ -43,12 +43,6 @@ process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
 process.env.DB_ENABLE_PROFILER = 'YES';
 process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
-process.env.EXAMPLE_OBJECT_INVALID = '{ "retry": 3, "timeout": 1000 ';
-process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
-process.env.EXAMPLE_ARRAY_COMMA_DELIM = 'id,email,   dateCreated   ,dateModified';
-process.env.NOT_IN_CONFIG_MAP = 'not mapped';
-process.env.INVALID_TYPE = 'passthru          ';
-process.env.COERCE_UNDEFINED = 'undefined';
 process.env.COERCE_NULL = 'null';
 process.env.COERCE_NULL_DISABLED = 'null';
 
@@ -56,17 +50,11 @@ process.env.COERCE_NULL_DISABLED = 'null';
 const configMap = {
   NODE_ENV: { default: 'development' },
   LOG_LEVEL: { default: 'info' },
-  SERVER_HOST: {},
+  SERVER_HOST: { default: 'localhost' },
   SERVER_PORT: { default: 80, type: 'number' },
   ENABLE_CORS: { default: false, type: 'boolean' },
   DB_PASSWORD: { redact: true },
   DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
-  EXAMPLE_OBJECT: { type: 'object' },
-  EXAMPLE_OBJECT_INVALID: { type: 'object' },
-  EXAMPLE_ARRAY: { type: 'object' },
-  EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
-  INVALID_TYPE: { type: 'typeNotDefined' },
-  COERCE_UNDEFINED: {},
   COERCE_NULL: {},
   COERCE_NULL_DISABLED: { coerceNull: false },
 };
@@ -100,21 +88,15 @@ console.log(config.getRedacted());
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
-  SERVER_HOST: undefined,
+  SERVER_HOST: 'localhost',
   SERVER_PORT: 8080,
   ENABLE_CORS: true,
   DB_PASSWORD: 'mypassword',
   DB_ENABLE_PROFILER: true,
-  EXAMPLE_OBJECT: { retry: 3, timeout: 1000 },
-  EXAMPLE_OBJECT_INVALID: undefined,
-  EXAMPLE_ARRAY: [ 'a', 1 ],
-  EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ],
-  INVALID_TYPE: 'passthru          ',
-  COERCE_UNDEFINED: undefined,
   COERCE_NULL: null,
   COERCE_NULL_DISABLED: 'null',
   getRedacted: [Function],
-  getOptions: [Function]
+  getOptions: [Function]  
 }
 ```
 
@@ -123,19 +105,13 @@ console.log(config.getRedacted());
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
-  SERVER_HOST: undefined,
+  SERVER_HOST: 'localhost',
   SERVER_PORT: 8080,
   ENABLE_CORS: true,
   DB_PASSWORD: 'XXXXXXXXXX',
   DB_ENABLE_PROFILER: true,
-  EXAMPLE_OBJECT: { retry: 3, timeout: 1000 },
-  EXAMPLE_OBJECT_INVALID: undefined,
-  EXAMPLE_ARRAY: [ 'a', 1 ],
-  EXAMPLE_ARRAY_COMMA_DELIM: [ 'id', 'email', 'dateCreated', 'dateModified' ],
-  INVALID_TYPE: 'passthru          ',
-  COERCE_UNDEFINED: undefined,
   COERCE_NULL: null,
-  COERCE_NULL_DISABLED: 'null'
+  COERCE_NULL_DISABLED: 'null' 
 }
 ```
 
@@ -145,7 +121,7 @@ console.log(config.getRedacted());
 - `types` : *object*
   - Define additional types.  Merges with the supported types.
 - `getter` : *function* 
-  - Getter to get value from key.  It is also possible to customize via the getters to get value from sources other then `process.env`
+  - Getter to get value from key.  It is also possible to customize via the getters to get values from sources other then `process.env`
 - `coerceNull` : *boolean* 
   - Coerce string `'null'` to `null`.
 - `coerceUndefined` : *boolean* 
