@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master)
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Map environment variables to config object. Mapping options includes common patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
+Map environment variables to config object. Mapping options includes common patterns such as set default, coerce null and undefined, type casting, and redact secrets from config for logging.
 
 - Zero dependency.
 - Supported types:
