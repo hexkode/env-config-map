@@ -12,7 +12,8 @@ const coerceNullString = stringValue => lowerTrim(stringValue) === 'null';
 
 /**
  * Will only call cast() with string value.
- * Any other types will be filtered out as undefined or null.
+ * Any other types will be filtered and returned as undefined or null.
+ * Any exceptions encoutered during casting will return null.
  *
  * @param {*} mixedValue
  * @param {function} cast
