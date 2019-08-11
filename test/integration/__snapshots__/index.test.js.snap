@@ -4,8 +4,8 @@ exports[`envConfigMap getOptions() should equal to default options when no optio
 Object {
   "coerceNull": true,
   "coerceUndefined": true,
-  "getKeyValue": [Function],
-  "redaction": [Function],
+  "getter": [Function],
+  "redactor": [Function],
   "types": Object {
     "arrayCommaDelim": [Function],
     "boolean": [Function],

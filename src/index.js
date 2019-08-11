@@ -3,8 +3,8 @@ const utils = require('./utils.js');
 
 const defaultOptions = {
   types,
-  getKeyValue: utils.getKeyValue,
-  redaction: utils.redaction,
+  getter: utils.getter,
+  redactor: utils.redactor,
   coerceUndefined: true,
   coerceNull: true,
 };
@@ -13,8 +13,8 @@ const defaultOptions = {
  * Maps process.env to config using configMap.
  * Also generates a redacted version of the config for logging.
  *
- * @param {*} configMap
- * @param {*} options
+ * @param {object} configMap
+ * @param {object} options
  */
 const envConfigMap = (configMap = {}, options = {}) => {
   const opts = {
@@ -33,23 +33,22 @@ const envConfigMap = (configMap = {}, options = {}) => {
   config.getOptions = () => opts;
 
   Object.keys(configMap).forEach((key) => {
-    const keyProps = configMap[key];
-    const keyValue = opts.getKeyValue(key);
-    const keyType = keyProps.type || 'string';
-    const cast = opts.types[keyType];
-    // eslint-disable-next-line max-len
-    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
-    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
+    const props = configMap[key];
+    const value = opts.getter(key);
+    const type = props.type || 'string';
+    const cast = opts.types[type];
+    const coerceUndefined = typeof props.coerceUndefined === 'boolean' ? props.coerceUndefined : opts.coerceUndefined;
+    const coerceNull = typeof props.coerceNull === 'boolean' ? props.coerceNull : opts.coerceNull;
 
-    let casted;
-    if (keyValue === undefined) {
-      casted = keyProps.default;
+    let converted;
+    if (value === undefined) {
+      converted = props.default;
     } else {
-      casted = utils.castString(keyValue, cast, { coerceUndefined, coerceNull });
+      converted = utils.convert(value, cast, { coerceUndefined, coerceNull });
     }
 
-    config[key] = casted;
-    redacted[key] = keyProps.redact === true && casted ? opts.redaction(casted) : casted;
+    config[key] = converted;
+    redacted[key] = props.redact === true && converted ? opts.redactor(converted) : converted;
   });
 
   return config;

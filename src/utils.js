@@ -1,45 +1,45 @@
 const DEFAULT_REDACTED = '**********';
 
-const redaction = () => DEFAULT_REDACTED;
+const redactor = () => DEFAULT_REDACTED;
 
-const getKeyValue = key => process.env[key];
+const getter = key => process.env[key];
 
-const lowerTrim = stringValue => (typeof stringValue === 'string' ? stringValue.trim().toLowerCase() : '');
+const lowerTrim = str => (typeof str === 'string' ? str.toLowerCase().trim() : '');
 
-const coerceUndefinedString = stringValue => lowerTrim(stringValue) === 'undefined';
+const coerceUndefinedString = str => lowerTrim(str) === 'undefined';
 
-const coerceNullString = stringValue => lowerTrim(stringValue) === 'null';
+const coerceNullString = str => lowerTrim(str) === 'null';
 
 /**
  * Will only call cast() with string value.
  * Any other types will be filtered and returned as undefined or null.
  * Any exceptions encoutered during casting will return null.
  *
- * @param {*} mixedValue
+ * @param {*} mixed
  * @param {function} cast
  * @param {object} options
  */
-const castString = (mixedValue, cast, options = {}) => {
+const convert = (mixed, cast, options = {}) => {
   try {
     const { coerceUndefined = true, coerceNull = true } = options;
 
-    if (typeof mixedValue !== 'string') {
-      return mixedValue === undefined ? undefined : null;
+    if (typeof mixed !== 'string') {
+      return mixed === undefined ? undefined : null;
     }
 
-    if (coerceUndefined === true && coerceUndefinedString(mixedValue) === true) {
+    if (coerceUndefined === true && coerceUndefinedString(mixed) === true) {
       return undefined;
     }
 
-    if (coerceNull === true && coerceNullString(mixedValue) === true) {
+    if (coerceNull === true && coerceNullString(mixed) === true) {
       return null;
     }
 
     if (typeof cast !== 'function') {
-      return mixedValue;
+      return mixed;
     }
 
-    return cast(mixedValue);
+    return cast(mixed);
   } catch (err) {
     return null;
   }
@@ -47,9 +47,9 @@ const castString = (mixedValue, cast, options = {}) => {
 
 module.exports = {
   DEFAULT_REDACTED,
-  redaction,
-  getKeyValue,
-  castString,
+  redactor,
+  getter,
+  convert,
   coerceUndefinedString,
   coerceNullString,
   lowerTrim,

@@ -2,103 +2,101 @@ const types = require('../../src/types.js');
 
 describe('types', () => {
   describe('string', () => {
-    test('"" to equal ""', () => {
-      expect(types.string('')).toStrictEqual('');
-    });
+    describe('is an identity function when', () => {
+      it('receives empty string', () => {
+        expect(types.string('')).toStrictEqual('');
+      });
 
-    test('"   " to equal "   "', () => {
-      expect(types.string('   ')).toStrictEqual('   ');
-    });
+      it('receives spaces', () => {
+        expect(types.string('   ')).toStrictEqual('   ');
+      });
 
-    test('"testStringValue" to equal "testStringValue"', () => {
-      expect(types.string('testStringValue')).toStrictEqual('testStringValue');
-    });
+      it('receives padding string', () => {
+        expect(types.string('   testValuePadded   ')).toStrictEqual('   testValuePadded   ');
+      });
 
-    test('"   testStringValuePadded   " to equal "   testStringValuePadded   "', () => {
-      expect(types.string('   testStringValuePadded   ')).toStrictEqual('   testStringValuePadded   ');
-    });
+      it('receives string 0', () => {
+        expect(types.string('0')).toStrictEqual('0');
+      });
 
-    test('"0" to equal "0"', () => {
-      expect(types.string('0')).toStrictEqual('0');
-    });
+      it('receives string float', () => {
+        expect(types.string('3.14')).toStrictEqual('3.14');
+      });
 
-    test('"3.14" to equal "3.14"', () => {
-      expect(types.string('3.14')).toStrictEqual('3.14');
-    });
+      it('receives string integer > 0', () => {
+        expect(types.string('12345')).toStrictEqual('12345');
+      });
 
-    test('"12345" to equal "12345"', () => {
-      expect(types.string('12345')).toStrictEqual('12345');
-    });
+      it('receives string null', () => {
+        expect(types.string('null')).toStrictEqual('null');
+      });
 
-    test('"null" to equal "null"', () => {
-      expect(types.string('null')).toStrictEqual('null');
-    });
-
-    test('"undefined" to equal "undefined"', () => {
-      expect(types.string('undefined')).toStrictEqual('undefined');
+      it('receives string undefined', () => {
+        expect(types.string('undefined')).toStrictEqual('undefined');
+      });
     });
   });
 
   describe('number', () => {
-    test('"0" to equal 0', () => {
+    it('returns integer for string 0', () => {
       expect(types.number('0')).toStrictEqual(0);
     });
 
-    test('"3" to equal 3', () => {
+    it('returns integer for string integer > 0', () => {
       expect(types.number('3')).toStrictEqual(3);
     });
 
-    test('"3.14" to equal 3.14', () => {
+    it('returns float for string float > 0', () => {
       expect(types.number('3.14')).toStrictEqual(3.14);
     });
 
-    test('"0.009" to equal 0.009', () => {
+    it('returns float for string float < 0', () => {
       expect(types.number('0.009')).toStrictEqual(0.009);
     });
 
-    test('"invalidNumberString" to equal null', () => {
+    it('returns null for invalid number string', () => {
       expect(types.number('invalidNumberString')).toBeNull();
     });
 
-    test('"null" to equal null', () => {
+    it('returns null for string null', () => {
       expect(types.number('null')).toBeNull();
     });
 
-    test('"undefined" to equal null', () => {
+    it('returns null for string undefined', () => {
       expect(types.number('undefined')).toBeNull();
     });
   });
 
   describe('boolean', () => {
-    test('"true" to equal true', () => {
+    it('returns true for string true', () => {
       expect(types.boolean('true')).toStrictEqual(true);
     });
 
-    test('"1" to equal true', () => {
+    it('returns true for string 1', () => {
       expect(types.boolean('1')).toStrictEqual(true);
     });
 
-    test('"false" to equal false', () => {
+    it('returns false for string false', () => {
       expect(types.boolean('false')).toStrictEqual(false);
     });
 
-    test('"0" to equal false', () => {
+    it('returns false for string 0', () => {
       expect(types.boolean('0')).toStrictEqual(false);
     });
 
-    test('" TrUe   " to equal true', () => {
+    it('returns true for string true that is padded and camel cased', () => {
       expect(types.boolean(' TrUe   ')).toStrictEqual(true);
     });
 
-    test('"neTrue1False0" to equal null', () => {
+    it('returns null for non-boolean string', () => {
       expect(types.boolean('neTrue1False0')).toBeNull();
     });
 
-    test('"null" to equal null', () => {
+    it('returns null for string null', () => {
       expect(types.boolean('null')).toBeNull();
     });
 
-    test('"undefined" to equal null', () => {
+    it('returns null for string undefined', () => {
       expect(types.boolean('undefined')).toBeNull();
     });
   });
@@ -114,39 +112,39 @@ describe('types', () => {
       },
     };
 
-    test('stringify object to equal object', () => {
+    it('returns object for valid stringify object', () => {
       expect(types.object('{ "a": 1, "b": "str1", "c": [], "d": true, "e": { "f": [ 2 , 3, "str2"] } }')).toStrictEqual(
         objectFixture,
       );
     });
 
-    test('invalid json string to throw exception', () => {
+    it('throws exception for invalid stringify object', () => {
       expect(() => types.object('{ "a": 1')).toThrow();
     });
 
-    test('"null" to equal null', () => {
+    it('returns null for string null', () => {
       expect(types.object('null')).toBeNull();
     });
 
-    test('"undefined" to equal null', () => {
+    it('returns null for string undefined', () => {
       expect(() => types.object('undefined')).toThrow();
     });
   });
 
   describe('arrayCommaDelim', () => {
-    test('"a,b,c" to equal [a,b,c]', () => {
+    it('returns array for comma delimited string', () => {
       expect(types.arrayCommaDelim('a,b,c')).toStrictEqual(['a', 'b', 'c']);
     });
 
-    test('" a ,  b   , c " to equal [a,b,c]', () => {
+    it('returns array with item trimmed for comma delimited string', () => {
       expect(types.arrayCommaDelim(' a ,  b   , c ')).toStrictEqual(['a', 'b', 'c']);
     });
 
-    test('"null" to equal ["null"]', () => {
+    it('returns array for string null', () => {
       expect(types.arrayCommaDelim('null')).toStrictEqual(['null']);
     });
 
-    test('"undefined" to equal ["undefined"]', () => {
+    it('returns array for string undefined', () => {
       expect(types.arrayCommaDelim('undefined')).toStrictEqual(['undefined']);
     });
   });

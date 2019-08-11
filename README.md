@@ -80,7 +80,7 @@ const options = {
       return null;
     },
   },
-  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };
 
 // map env vars to config using envConfigMap
@@ -137,15 +137,15 @@ console.log(config.getRedacted());
 ```
 
 ## Options
-- `redaction` : *function* - Transforms value to the redacted value.
+- `redactor` : *function* - Transforms value to the redacted value.
 - `types` : *object* -  Define additional types.  Merges with the default types.
-- `getKeyValue` : *function* - Getter to get value from key.
+- `getter` : *function* - Getter to get value from key.
 - `coerceNull` : *boolean* - Coerce string `'null'` to `null`.
 - `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.
 
 ```js
 const options = {
-  getKeyValue: key => process.env[key],
+  getter: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
     booleanYesNo: (stringValue) => {
@@ -155,7 +155,7 @@ const options = {
       return null;
     },
   },
-  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,
   coerceUndefined: false,
 };
@@ -170,7 +170,7 @@ const config = envConfigMap(configMap, options);
   - `boolean`
   - `object`
   - `arrayCommaDelim`
-- `redact` : *boolean* - Redact value with options.redaction().
+- `redact` : *boolean* - Redact value with options.redactor().
 - `coerceNull` : *boolean* - Coerce string `'null'` to `null`.  Supersedes `options.coerceNull`.
 - `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.  Supersedes `options.coerceNull`.
 

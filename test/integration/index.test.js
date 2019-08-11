@@ -8,18 +8,18 @@ describe('envConfigMap', () => {
     });
   });
 
-  describe('when getKeyValue()', () => {
+  describe('when getter()', () => {
     test('return undefined, should equal undefined', () => {
-      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => undefined });
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => undefined });
       expect(config.FIXTURE_KEY).toBeUndefined();
     });
     test('return null, should equal null', () => {
       process.env.FIXTURE_KEY = null;
-      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => null });
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => null });
       expect(config.FIXTURE_KEY).toBeNull();
     });
     test('return boolean, should equal null', () => {
-      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => true });
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => true });
       expect(config.FIXTURE_KEY).toBeNull();
     });
   });
@@ -144,7 +144,7 @@ describe('envConfigMap', () => {
         types: {
           booleanYesNo: value => value === 'yes',
         },
-        redaction: value => value.replace(/.+/, 'XXXXXXXXXX'),
+        redactor: value => value.replace(/.+/, 'XXXXXXXXXX'),
       };
 
       // map env vars to config using envConfigMap

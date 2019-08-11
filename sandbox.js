@@ -50,7 +50,7 @@ const options = {
       return null;
     },
   },
-  redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };
 
 // map env vars to config using envConfigMap
