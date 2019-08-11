@@ -29,24 +29,21 @@ npm install env-config-map
 npm run sandbox
 ```
 
-### Sandbox Example
+## Quick Example
 ```js
 // source from .env (optional)
 // require('dotenv').config();
 
 const envConfigMap = require('env-config-map');
 
-// set fixture values for sandbox example
 process.env.NODE_ENV = 'test';
-process.env.SERVER_PORT = '8080';
 process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
 process.env.DB_ENABLE_PROFILER = 'YES';
-process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
+process.env.DB_CONFIG = '{ "retry": 3, "timeout": 1000 } ';
 process.env.COERCE_NULL = 'null';
 process.env.COERCE_NULL_DISABLED = 'null';
 
-// define config map
 const configMap = {
   NODE_ENV: { default: 'development' },
   LOG_LEVEL: { default: 'info' },
@@ -55,6 +52,7 @@ const configMap = {
   ENABLE_CORS: { default: false, type: 'boolean' },
   DB_PASSWORD: { redact: true },
   DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
+  DB_CONFIG: { type: 'object' },
   COERCE_NULL: {},
   COERCE_NULL_DISABLED: { coerceNull: false },
 };
@@ -82,17 +80,18 @@ console.log(config);
 console.log(config.getRedacted());
 ```
 
-### Sandbox Example Output:
+### Quick Example Output:
 #### console.log(config);
 ```js
 { 
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
   SERVER_HOST: 'localhost',
-  SERVER_PORT: 8080,
+  SERVER_PORT: 80,
   ENABLE_CORS: true,
   DB_PASSWORD: 'mypassword',
   DB_ENABLE_PROFILER: true,
+  DB_CONFIG: { retry: 3, timeout: 1000 },
   COERCE_NULL: null,
   COERCE_NULL_DISABLED: 'null',
   getRedacted: [Function],
@@ -106,10 +105,11 @@ console.log(config.getRedacted());
   NODE_ENV: 'test',
   LOG_LEVEL: 'info',
   SERVER_HOST: 'localhost',
-  SERVER_PORT: 8080,
+  SERVER_PORT: 80,
   ENABLE_CORS: true,
   DB_PASSWORD: 'XXXXXXXXXX',
   DB_ENABLE_PROFILER: true,
+  DB_CONFIG: { retry: 3, timeout: 1000 },
   COERCE_NULL: null,
   COERCE_NULL_DISABLED: 'null' 
 }
