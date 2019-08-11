@@ -8,7 +8,7 @@ describe('envConfigMap', () => {
     });
   });
 
-  describe('when getter returns undefined, null or non-string type', () => {
+  describe('getter() that are customized to return types that are not string', () => {
     it('returns undefined for undefined', () => {
       const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => undefined });
       expect(config.FIXTURE_KEY).toBeUndefined();
@@ -18,98 +18,80 @@ describe('envConfigMap', () => {
       const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => null });
       expect(config.FIXTURE_KEY).toBeNull();
     });
-    it('return null for boolean', () => {
-      const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => true });
-      expect(config.FIXTURE_KEY).toBeNull();
+    it('return null for any other types', () => {
+      const configBool = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => true });
+      expect(configBool.FIXTURE_KEY).toBeNull();
+
+      const configArray = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => [] });
+      expect(configArray.FIXTURE_KEY).toBeNull();
+
+      const configNumber = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => 123 });
+      expect(configNumber.FIXTURE_KEY).toBeNull();
     });
   });
 
-  describe('when coerceUndefined option', () => {
-    describe('is enabled for string type', () => {
-      test('"undefined" should equal to undefined', () => {
+  describe('coerceUndefined option', () => {
+    describe('is enabled with type string', () => {
+      it('returns undefined for "undefined"', () => {
         process.env.FIXTURE_KEY = 'undefined';
-        const configMap = {
-          FIXTURE_KEY: {},
-        };
-
+        const configMap = { FIXTURE_KEY: {} };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toBeUndefined();
       });
     });
 
-    describe('is disabled for string type', () => {
-      test('"undefined" should equal to "undefined"', () => {
+    describe('is disabled with type string', () => {
+      it('returns "undefined" for "undefined"', () => {
         process.env.FIXTURE_KEY = 'undefined';
-        const configMap = {
-          FIXTURE_KEY: { coerceUndefined: false },
-        };
-
+        const configMap = { FIXTURE_KEY: { coerceUndefined: false } };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toStrictEqual('undefined');
       });
     });
   });
 
-  describe('when coerceNull option', () => {
-    describe('is enabled for number type', () => {
-      test('"null" should equal to null', () => {
+  describe('coerceNull option', () => {
+    describe('is enabled with type number', () => {
+      it('returns null for "null"', () => {
         process.env.FIXTURE_KEY = 'null';
-        const configMap = {
-          FIXTURE_KEY: { type: 'number' },
-        };
-
+        const configMap = { FIXTURE_KEY: { type: 'number' } };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toBeNull();
       });
 
-      test('"3" should equal to 3', () => {
+      it('returns 3 for "3"', () => {
         process.env.FIXTURE_KEY = '3';
-        const configMap = {
-          FIXTURE_KEY: { type: 'number' },
-        };
-
+        const configMap = { FIXTURE_KEY: { type: 'number' } };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toStrictEqual(3);
       });
     });
 
-    describe('is disabled for number type', () => {
-      test('"null" should equal to null', () => {
+    describe('is disabled with number type', () => {
+      it('returns null for "null"', () => {
         process.env.FIXTURE_KEY = 'null';
-        const configMap = {
-          FIXTURE_KEY: { type: 'number', coerceNull: false },
-        };
-
+        const configMap = { FIXTURE_KEY: { type: 'number', coerceNull: false } };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toBeNull();
       });
 
-      test('"3" should equal to 3', () => {
+      it('returns 3 for "3"', () => {
         process.env.FIXTURE_KEY = '3';
-        const configMap = {
-          FIXTURE_KEY: { type: 'number', coerceNull: false },
-        };
-
+        const configMap = { FIXTURE_KEY: { type: 'number', coerceNull: false } };
         const config = envConfigMap(configMap);
-
         expect(config.FIXTURE_KEY).toStrictEqual(3);
       });
     });
   });
 
-  describe('sandbox test', () => {
+  describe('sandbox example', () => {
     it('returns expected output', () => {
-      // set fixture_KEY values for sandbox example
+      // set fixture values for sandbox example
       process.env.NODE_ENV = 'test';
       process.env.SERVER_PORT = '8080';
       process.env.ENABLE_CORS = 'true';
       process.env.DB_PASSWORD = 'mypassword';
-      process.env.DB_ENABLE_PROFILER = 'yes';
+      process.env.DB_ENABLE_PROFILER = 'YES';
       process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
       process.env.EXAMPLE_OBJECT_INVALID = '{ "retry": 3, "timeout": 1000 ';
       process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
@@ -142,9 +124,15 @@ describe('envConfigMap', () => {
       // customize with options
       const options = {
         types: {
-          booleanYesNo: value => value === 'yes',
+          // define custom type "booleanYesNo"
+          booleanYesNo: (str) => {
+            const normalized = envConfigMap.utils.lowerTrim(str);
+            if (normalized === 'yes') return true;
+            if (normalized === 'no') return false;
+            return null;
+          },
         },
-        redactor: value => value.replace(/.+/, 'XXXXXXXXXX'),
+        redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
       };
 
       // map env vars to config using envConfigMap

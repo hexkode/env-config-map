@@ -10,7 +10,7 @@ const {
 
 describe('utils', () => {
   describe('redactor', () => {
-    it('returns the redacted string', () => {
+    it('returns redacted value', () => {
       expect(redactor('mypassword')).toStrictEqual(DEFAULT_REDACTED);
     });
   });
@@ -26,7 +26,7 @@ describe('utils', () => {
   });
 
   describe('convert', () => {
-    it('returns same string when cast is not a function', () => {
+    it('returns input when cast is not a function', () => {
       expect(convert('testValue', 'notFunction')).toStrictEqual('testValue');
     });
     it('returns null when type is not string', () => {
@@ -41,43 +41,43 @@ describe('utils', () => {
     it('returns undefined for undefined', () => {
       expect(convert(undefined)).toBeUndefined();
     });
-    it('returns null for string null when coerceNull is enabled', () => {
+    it('returns null for "null" when coerceNull defaults to true', () => {
       expect(convert('null')).toBeNull();
     });
-    it('returns undefined for string undefined when coerceUndefined is enabled', () => {
+    it('returns undefined for "undefined" when coerceUndefined defaults to true', () => {
       expect(convert('undefined')).toBeUndefined();
     });
-    it('returns string null for string null when coerceNull is disabled', () => {
+    it('returns "null" for "null" when coerceNull is false', () => {
       expect(convert('null', str => str, { coerceNull: false })).toStrictEqual('null');
     });
-    it('returns string undefined for string undefined when coerceUndefined is disabled', () => {
+    it('returns "undefined" for "undefined" when coerceUndefined is false', () => {
       expect(convert('undefined', str => str, { coerceUndefined: false })).toStrictEqual('undefined');
     });
   });
 
   describe('coerceNullString', () => {
-    it('returns true for string null', () => {
+    it('returns true for "null"', () => {
       expect(coerceNullString('null')).toStrictEqual(true);
     });
-    it('returns false for string not equal to null', () => {
+    it('returns false for string not equal to "null"', () => {
       expect(coerceNullString('testValue')).toStrictEqual(false);
     });
   });
 
   describe('coerceUndefinedString', () => {
-    it('returns true for string undefined', () => {
+    it('returns true for "undefined"', () => {
       expect(coerceUndefinedString('undefined')).toStrictEqual(true);
     });
-    it('returns false for string not euqal to undefined', () => {
+    it('returns false for string not euqal to "undefined"', () => {
       expect(coerceUndefinedString('testValue')).toStrictEqual(false);
     });
   });
 
   describe('lowerTrim', () => {
-    it('returns string all lower cased', () => {
+    it('returns lower cased string', () => {
       expect(lowerTrim('testValue')).toStrictEqual('testvalue');
     });
-    it('returns string trimmed and lower cased', () => {
+    it('returns trimmed and lower cased string', () => {
       expect(lowerTrim(' TrUe   ')).toStrictEqual('true');
     });
     it('returns empty string when type is not string', () => {

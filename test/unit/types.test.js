@@ -2,7 +2,7 @@ const types = require('../../src/types.js');
 
 describe('types', () => {
   describe('string', () => {
-    it('returns same string', () => {
+    it('returns input', () => {
       expect(types.string('')).toStrictEqual('');
       expect(types.string('   ')).toStrictEqual('   ');
       expect(types.string('   testValuePadded   ')).toStrictEqual('   testValuePadded   ');
@@ -33,13 +33,13 @@ describe('types', () => {
   });
 
   describe('boolean', () => {
-    it('returns true for case insensitive string true and 1', () => {
+    it('returns true for case insensitive "true" and "1"', () => {
       expect(types.boolean('true')).toStrictEqual(true);
       expect(types.boolean('1')).toStrictEqual(true);
       expect(types.boolean(' TrUe   ')).toStrictEqual(true);
     });
 
-    it('returns false for case insensitive string false and 0', () => {
+    it('returns false for case insensitive "false" and "0"', () => {
       expect(types.boolean('false')).toStrictEqual(false);
       expect(types.boolean('0')).toStrictEqual(false);
       expect(types.boolean('FALSE')).toStrictEqual(false);
@@ -74,7 +74,7 @@ describe('types', () => {
       expect(() => types.object('undefined')).toThrow();
     });
 
-    it('returns null for string null', () => {
+    it('returns null for "null"', () => {
       expect(types.object('null')).toBeNull();
     });
   });
