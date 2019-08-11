@@ -2,42 +2,31 @@
 // source from .env (optional)
 // require('dotenv').config();
 
-const envConfigMap = require('./index.js');
+const envConfigMap = require('./index');
 
-// set fixture values for sandbox example
-process.env.NODE_ENV = 'test';
-process.env.SERVER_PORT = '8080';
-process.env.ENABLE_CORS = 'true';
-process.env.DB_PASSWORD = 'mypassword';
-process.env.DB_ENABLE_PROFILER = 'YES';
-process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
-process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
-process.env.EXAMPLE_ARRAY_COMMA_DELIM = 'id,email,   dateCreated   ,dateModified';
-process.env.NOT_IN_CONFIG_MAP = 'not mapped';
-process.env.INVALID_TYPE = 'passthru          ';
-process.env.COERCE_UNDEFINED = 'undefined';
-process.env.COERCE_NULL = 'null';
+// setup fixture data for example
+process.env.SERVER_HOST = '0.0.0.0';
+process.env.SERVER_PORT = 8080;
+process.env.MAINTENANCE_MODE = 'true';
+process.env.ENABLE_PROFILER = 'NO';
+process.env.SETTINGS = '{ "path": "/tmp", "timeout": 1000 } ';
+process.env.ACCESS_KEY = 'myAccessKey';
+process.env.COERCE_NULL_DEFAULT = 'null';
 process.env.COERCE_NULL_DISABLED = 'null';
+// process.env.LOG_LEVEL = undefined;
 
-// define config map
 const configMap = {
-  NODE_ENV: { default: 'development' },
-  LOG_LEVEL: { default: 'info' },
-  SERVER_HOST: {},
+  SERVER_HOST: { default: 'localhost' },
   SERVER_PORT: { default: 80, type: 'number' },
-  ENABLE_CORS: { default: false, type: 'boolean' },
-  DB_PASSWORD: { redact: true },
-  DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
-  EXAMPLE_OBJECT: { type: 'object' },
-  EXAMPLE_ARRAY: { type: 'object' },
-  EXAMPLE_ARRAY_COMMA_DELIM: { type: 'arrayCommaDelim' },
-  INVALID_TYPE: { type: 'typeNotDefined' },
-  COERCE_UNDEFINED: {},
-  COERCE_NULL: {},
+  MAINTENANCE_MODE: { default: false, type: 'boolean' },
+  ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
+  SETTINGS: { type: 'object' },
+  ACCESS_KEY: { redact: true },
+  COERCE_NULL_DEFAULT: {},
   COERCE_NULL_DISABLED: { coerceNull: false },
+  LOG_LEVEL: { default: 'info' },
 };
 
-// customize with options
 const options = {
   types: {
     // define custom type "booleanYesNo"
@@ -49,12 +38,10 @@ const options = {
     },
   },
   // customize redactor
-  redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: str => str.replace(/.+/, '*** REDACTED ***'),
 };
 
-// map env vars to config using envConfigMap
 const config = envConfigMap(configMap, options);
 
-// log output
 console.log(config);
 console.log(config.getRedacted());

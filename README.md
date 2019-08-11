@@ -1,11 +1,11 @@
-# env-config-map 
+# env-config-map
 
 [![npm](https://img.shields.io/npm/v/env-config-map)](https://www.npmjs.com/package/env-config-map)
 [![CircleCI](https://img.shields.io/circleci/build/github/hexkode/env-config-map)](https://circleci.com/gh/hexkode/env-config-map)
-[![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
+[![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master)
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to config object.  Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
+Maps environment variables to config object. Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
 
 - Zero dependency.
 - Supported types:
@@ -13,55 +13,59 @@ Maps environment variables to config object.  Mapping options includes commonly 
   - `number`
   - `boolean`
   - `object`
-  - `arrayCommaDelim`  
+  - `arrayCommaDelim`
 - `redact` option to redact value for logging.
 - `coerceNull` options to coerce `"null"` to `null`.
 - `coerceUndefined` options to coerce `"undefined"` to `undefined`.
-- Customizable to get input values from sources other then `process.env.`
-   
+- Can customzie to get input values from sources other then `process.env.`
+
 ## Installation
+
 ```console
 npm install env-config-map
 ```
 
 ## Run Sandbox Example
+
 ```console
 npm run sandbox
 ```
 
-## Quick Example
+## Sandbox Example
+
 ```js
 // source from .env (optional)
 // require('dotenv').config();
 
 const envConfigMap = require('env-config-map');
 
-process.env.NODE_ENV = 'test';
-process.env.ENABLE_CORS = 'true';
-process.env.DB_PASSWORD = 'mypassword';
-process.env.DB_ENABLE_PROFILER = 'YES';
-process.env.DB_CONFIG = '{ "retry": 3, "timeout": 1000 } ';
-process.env.COERCE_NULL = 'null';
+// setup fixture data for example
+process.env.SERVER_HOST = '0.0.0.0';
+process.env.SERVER_PORT = 8080;
+process.env.MAINTENANCE_MODE = 'true';
+process.env.ENABLE_PROFILER = 'NO';
+process.env.SETTINGS = '{ "path": "/tmp", "timeout": 1000 } ';
+process.env.ACCESS_KEY = 'myAccessKey';
+process.env.COERCE_NULL_DEFAULT = 'null';
 process.env.COERCE_NULL_DISABLED = 'null';
+// process.env.LOG_LEVEL = undefined;
 
 const configMap = {
-  NODE_ENV: { default: 'development' },
-  LOG_LEVEL: { default: 'info' },
   SERVER_HOST: { default: 'localhost' },
   SERVER_PORT: { default: 80, type: 'number' },
-  ENABLE_CORS: { default: false, type: 'boolean' },
-  DB_PASSWORD: { redact: true },
-  DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
-  DB_CONFIG: { type: 'object' },
-  COERCE_NULL: {},
+  MAINTENANCE_MODE: { default: false, type: 'boolean' },
+  ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
+  SETTINGS: { type: 'object' },
+  ACCESS_KEY: { redact: true },
+  COERCE_NULL_DEFAULT: {},
   COERCE_NULL_DISABLED: { coerceNull: false },
+  LOG_LEVEL: { default: 'info' },
 };
 
-// customize with options
 const options = {
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: (str) => {
+    booleanYesNo: str => {
       const normalized = envConfigMap.utils.lowerTrim(str);
       if (normalized === 'yes') return true;
       if (normalized === 'no') return false;
@@ -69,62 +73,90 @@ const options = {
     },
   },
   // customize redactor
-  redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: str => str.replace(/.+/, '*** REDACTED ***'),
 };
 
-// map env vars to config using envConfigMap
 const config = envConfigMap(configMap, options);
 
-// log output
 console.log(config);
 console.log(config.getRedacted());
 ```
 
-### Quick Example Output:
+### Sandbox Example Output:
+
 #### console.log(config);
+
 ```js
-{ 
-  NODE_ENV: 'test',
-  LOG_LEVEL: 'info',
-  SERVER_HOST: 'localhost',
-  SERVER_PORT: 80,
-  ENABLE_CORS: true,
-  DB_PASSWORD: 'mypassword',
-  DB_ENABLE_PROFILER: true,
-  DB_CONFIG: { retry: 3, timeout: 1000 },
-  COERCE_NULL: null,
+{
+  SERVER_HOST: '0.0.0.0',
+  SERVER_PORT: 8080,
+  MAINTENANCE_MODE: true,
+  ENABLE_PROFILER: false,
+  SETTINGS: { path: '/tmp', timeout: 1000 },
+  ACCESS_KEY: 'myAccessKey',
+  COERCE_NULL_DEFAULT: null,
   COERCE_NULL_DISABLED: 'null',
+  LOG_LEVEL: 'info',
   getRedacted: [Function],
-  getOptions: [Function]  
+  getOptions: [Function]
 }
 ```
 
 #### console.log(config.getRedacted());
+
 ```js
-{ 
-  NODE_ENV: 'test',
-  LOG_LEVEL: 'info',
-  SERVER_HOST: 'localhost',
-  SERVER_PORT: 80,
-  ENABLE_CORS: true,
-  DB_PASSWORD: 'XXXXXXXXXX',
-  DB_ENABLE_PROFILER: true,
-  DB_CONFIG: { retry: 3, timeout: 1000 },
-  COERCE_NULL: null,
-  COERCE_NULL_DISABLED: 'null' 
+{
+  SERVER_HOST: '0.0.0.0',
+  SERVER_PORT: 8080,
+  MAINTENANCE_MODE: true,
+  ENABLE_PROFILER: false,
+  SETTINGS: { path: '/tmp', timeout: 1000 },
+  ACCESS_KEY: '*** REDACTED ***',
+  COERCE_NULL_DEFAULT: null,
+  COERCE_NULL_DISABLED: 'null',
+  LOG_LEVEL: 'info'
 }
 ```
 
-## Options
-- `redactor` : *function*
+## configMap
+
+- `default` : _mixed_
+  - Sets the default value.
+- `type` : _string_
+  - Specify the type. Cast operation will call the type casting function defined in `options.types`. Supports the following types:
+    - `string` (default)
+    - `number`
+    - `boolean`
+    - `object`
+    - `arrayCommaDelim`
+- `redact` : _boolean_
+  - Flag to indicate if the value is a secret and needs to be redacted.
+- `coerceNull` : _boolean_
+  - Coerce string `'null'` to `null`. Supersedes `options.coerceNull`.
+- `coerceUndefined` : _boolean_
+  - Coerce string `'undefined'` to `undefined`. Supersedes `options.coerceNull`.
+
+```js
+const configMap = {
+  SERVER_PORT: { default: 80, type: 'number' },
+  ACCESS_KEY: { redact: true },
+  ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
+  COERCE_DISABLED: { coerceNull: false, coerceUndefined: false },
+};
+const config = envConfigMap(configMap, options);
+```
+
+## options
+
+- `redactor` : _function_
   - Transforms value to the redacted value.
-- `types` : *object*
-  - Define additional types.  Merges with the supported types.
-- `getter` : *function* 
-  - Getter to get value from key.  It is also possible to customize via the getters to get values from sources other then `process.env`
-- `coerceNull` : *boolean* 
+- `types` : _object_
+  - Define additional types. Merges with the supported types.
+- `getter` : _function_
+  - Getter to get value from key. It is also possible to customize via the getters to get values from sources other then `process.env`
+- `coerceNull` : _boolean_
   - Coerce string `'null'` to `null`.
-- `coerceUndefined` : *boolean* 
+- `coerceUndefined` : _boolean_
   - Coerce string `'undefined'` to `undefined`.
 
 ```js
@@ -132,7 +164,7 @@ const options = {
   getter: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: (str) => {
+    booleanYesNo: str => {
       const normalized = envConfigMap.utils.lowerTrim(str);
       if (normalized === 'yes') return true;
       if (normalized === 'no') return false;
@@ -140,70 +172,43 @@ const options = {
     },
   },
   // customized redactor
-  redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: str => str.replace(/.+/, '*** REDACTED ***'),
   coerceNull: true,
   coerceUndefined: false,
 };
 const config = envConfigMap(configMap, options);
 ```
 
-## Props for configMap
-- `default` : *mixed*
-  - Sets the default value.  
-- `type` : *string* 
-  - Specify the type.  Cast operation will call the type casting function defined in `options.types`.  Supports the following types:
-    - `string` (default)
-    - `number`
-    - `boolean`
-    - `object`
-    - `arrayCommaDelim`
-- `redact` : *boolean*
-  - Flag to indicate if the value is a secret and needs to be redacted.
-- `coerceNull` : *boolean*
-  - Coerce string `'null'` to `null`.  Supersedes `options.coerceNull`.
-- `coerceUndefined` : *boolean*
-  - Coerce string `'undefined'` to `undefined`.  Supersedes `options.coerceNull`.
-
-```js
-const configMap = {
-  SERVER_PORT: { default: 80, type: 'number' },
-  DB_PASSWORD: { redact: true },
-  DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
-  COERCE_DISABLED: { coerceNull: false, coerceUndefined: false },
-};
-const config = envConfigMap(configMap, options);
-```
-
 ## Misc Exports
+
 ```js
 const envConfigMap = require('env-config-map');
-const defaultOptions = envConfigMap.defaultOptions
-const supportedTypeConverters = envConfigMap.types
-const helperUtils = envConfigMap.utils
+const defaultOptions = envConfigMap.defaultOptions;
+const supportedTypes = envConfigMap.types;
+const helperUtils = envConfigMap.utils;
 ```
 
 ## Example App with Default Options
+
 ### .env
+
 ```js
-NODE_ENV=test
-LOG_LEVEL=debug
-APP_NAME=env-config-map
-SERVER_PORT=8080
-DB_PASSWORD=mypassword
+APP_NAME = envConfigMap;
+SERVER_PORT = 8080;
+ACCESS_KEY = myAccessKey;
 ```
 
 ### config.js
+
 ```js
 require('dotenv').config();
 const envConfigMap = require('env-config-map');
 
 const configMap = {
-  NODE_ENV: { default: 'development' },
-  LOG_LEVEL: { default: 'info' },
   APP_NAME: { default: 'noname' },
   SERVER_HOST: { default: 'localhost' },
   SERVER_PORT: { default: 80, type: 'number' },
-  DB_PASSWORD: { redact: true },
+  ACCESS_KEY: { redact: true },
 };
 const config = envConfigMap(configMap);
 
@@ -211,6 +216,7 @@ module.exports = config;
 ```
 
 ### server.js
+
 ```js
 const http = require('http');
 const config = require('./config.js');
@@ -222,8 +228,9 @@ http
     res.write(`Hello ${config.APP_NAME}!`);
     res.end();
   })
-  .listen(
-    config.SERVER_PORT, 
-    config.SERVER_HOST, 
-    () => console.log(`server listening on ${config.SERVER_HOST}:${config.SERVER_PORT}`));
+  .listen(config.SERVER_PORT, config.SERVER_HOST, () =>
+    console.log(
+      `server listening on ${config.SERVER_HOST}:${config.SERVER_PORT}`
+    )
+  );
 ```
