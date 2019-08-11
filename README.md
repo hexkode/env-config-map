@@ -9,7 +9,7 @@ Map environment variables to config object. Mapping options includes common patt
 
 - Zero dependency.
 - Supported types:
-  - `string` (default)
+  - `string` _(default)_
   - `number`
   - `boolean`
   - `object`
@@ -17,7 +17,7 @@ Map environment variables to config object. Mapping options includes common patt
 - `redact` option to redact value for logging.
 - `coerceNull` option to coerce `"null"` to `null`.
 - `coerceUndefined` option to coerce `"undefined"` to `undefined`.
-- `getter` options to load input values from other sources. Default source is `process.env`.
+- `getter` option to get input values from other sources. Default source is `process.env`.
 
 ## Installation
 
@@ -120,9 +120,9 @@ console.log(config.getRedacted());
 
 - `default` : _mixed_
   - Sets the default value.
-- `type` : _string_
+- `type` : _string_ _(default: string)_
   - Specify the type. Cast operation will call the type casting function defined in `options.types`. Supports the following types:
-    - `string` (default)
+    - `string`
     - `number`
     - `boolean`
     - `object`
@@ -147,14 +147,14 @@ const config = envConfigMap(configMap, options);
 ## options
 
 - `redactor` : _function_
-  - Transforms value to the redacted value.
+  - Function to redact value flaged with the `redact` configMap option.
 - `types` : _object_
-  - Define additional types. Merges with the supported types.
+  - For defining additional types and it will merge with the supported types.
 - `getter` : _function_
-  - Getter to get value from key. It is also possible to customize via the getters to get values from sources other then `process.env`
-- `coerceNull` : _boolean_
+  - Get input value for key. Default source is `process.env`.
+- `coerceNull` : _boolean_ _(default: true)_
   - Coerce string `'null'` to `null`.
-- `coerceUndefined` : _boolean_
+- `coerceUndefined` : _boolean_ _(default: true)_
   - Coerce string `'undefined'` to `undefined`.
 
 ```js
