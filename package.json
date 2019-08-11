@@ -1,6 +1,6 @@
 {
   "name": "env-config-map",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Maps environment variables to config object.  Mapping includes commonly encountered patterns.",
   "main": "index.js",
   "scripts": {
