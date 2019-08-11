@@ -2,23 +2,23 @@ const envConfigMap = require('../../index.js');
 
 describe('envConfigMap', () => {
   describe('getOptions()', () => {
-    test('should equal to default options when no options are provided', () => {
+    it('returns default options when no options are provided', () => {
       const config = envConfigMap();
       expect(config.getOptions()).toMatchSnapshot();
     });
   });
 
-  describe('when getter()', () => {
-    test('return undefined, should equal undefined', () => {
+  describe('when getter returns undefined, null or non-string type', () => {
+    it('returns undefined for undefined', () => {
       const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => undefined });
       expect(config.FIXTURE_KEY).toBeUndefined();
     });
-    test('return null, should equal null', () => {
+    it('returns null for null', () => {
       process.env.FIXTURE_KEY = null;
       const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => null });
       expect(config.FIXTURE_KEY).toBeNull();
     });
-    test('return boolean, should equal null', () => {
+    it('return null for boolean', () => {
       const config = envConfigMap({ FIXTURE_KEY: {} }, { getter: () => true });
       expect(config.FIXTURE_KEY).toBeNull();
     });

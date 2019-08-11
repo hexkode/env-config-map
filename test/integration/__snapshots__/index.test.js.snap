@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`envConfigMap getOptions() should equal to default options when no options are provided 1`] = `
+exports[`envConfigMap getOptions() returns default options when no options are provided 1`] = `
 Object {
   "coerceNull": true,
   "coerceUndefined": true,
