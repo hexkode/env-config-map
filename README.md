@@ -82,9 +82,7 @@ console.log(config);
 console.log(config.getRedacted());
 ```
 
-### Sandbox Example Output:
-
-#### console.log(config);
+### console.log(config);
 
 ```js
 {
@@ -102,7 +100,7 @@ console.log(config.getRedacted());
 }
 ```
 
-#### console.log(config.getRedacted());
+### console.log(config.getRedacted());
 
 ```js
 {
@@ -188,7 +186,7 @@ const supportedTypes = envConfigMap.types;
 const helperUtils = envConfigMap.utils;
 ```
 
-## Example App with Default Options
+## Example Server Config with `env-config-map`
 
 ### .env
 
