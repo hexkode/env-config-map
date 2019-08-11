@@ -10,11 +10,12 @@ const defaultOptions = {
 };
 
 /**
- * Maps process.env to config using configMap.
- * Also generates a redacted version of the config for logging.
+ * Maps value returned from opts.getter() to config object using configMap.
+ * Also generates a redacted version of the config object for logging.
  *
- * @param {object} configMap
- * @param {object} options
+ * @param {Object} configMap
+ * @param {Object} options
+ * @returns {Object}
  */
 const envConfigMap = (configMap = {}, options = {}) => {
   const opts = {
