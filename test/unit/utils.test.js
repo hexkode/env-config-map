@@ -10,78 +10,80 @@ const {
 
 describe('utils', () => {
   describe('redactor', () => {
-    test(`should equal to "${DEFAULT_REDACTED}"`, () => {
+    it('returns the redacted string', () => {
       expect(redactor('mypassword')).toStrictEqual(DEFAULT_REDACTED);
     });
   });
 
   describe('getter', () => {
-    test('TEST_KEY should equal to "testValue"', () => {
+    it('returns value if key exist', () => {
       process.env.TEST_KEY = 'testValue';
       expect(getter('TEST_KEY')).toStrictEqual('testValue');
     });
-    test('MISSING_KEY should equal to undefined', () => {
+    it('returns undefined if key does not exist', () => {
       expect(getter('MISSING_KEY')).toBeUndefined();
     });
   });
 
   describe('convert', () => {
-    test('when cast is not a function it should return "testValue"', () => {
+    it('returns same string when cast is not a function', () => {
       expect(convert('testValue', 'notFunction')).toStrictEqual('testValue');
     });
-    test('when not string, null or undefined it should return null', () => {
+    it('returns null when type is not string', () => {
       expect(convert(true)).toBeNull();
       expect(convert(123)).toBeNull();
       expect(convert([])).toBeNull();
       expect(convert({})).toBeNull();
     });
-    test('null should return null', () => {
+    it('returns null for null', () => {
       expect(convert(null)).toBeNull();
     });
-    test('undefined should return undefined', () => {
+    it('returns undefined for undefined', () => {
       expect(convert(undefined)).toBeUndefined();
     });
-    test('when coerceNull is enabled, "null" should return null', () => {
+    it('returns null for string null when coerceNull is enabled', () => {
       expect(convert('null')).toBeNull();
     });
-    test('when coerceUndefined is enabled, "undefined" should return undefined', () => {
+    it('returns undefined for string undefined when coerceUndefined is enabled', () => {
       expect(convert('undefined')).toBeUndefined();
     });
-    test('when coerceNull is disabled, "null" should return "null"', () => {
-      expect(convert('null', stringValue => stringValue, { coerceNull: false })).toStrictEqual('null');
+    it('returns string null for string null when coerceNull is disabled', () => {
+      expect(convert('null', str => str, { coerceNull: false })).toStrictEqual('null');
     });
-    test('when coerceUndefined is disabled, "undefined" should return "undefined"', () => {
-      expect(convert('undefined', stringValue => stringValue, { coerceUndefined: false })).toStrictEqual('undefined');
+    it('returns string undefined for string undefined when coerceUndefined is disabled', () => {
+      expect(convert('undefined', str => str, { coerceUndefined: false })).toStrictEqual('undefined');
     });
   });
 
   describe('coerceNullString', () => {
-    test('"null" should return true', () => {
+    it('returns true for string null', () => {
       expect(coerceNullString('null')).toStrictEqual(true);
     });
-    test('"testValue" should return false', () => {
+    it('returns false for string not equal to null', () => {
       expect(coerceNullString('testValue')).toStrictEqual(false);
     });
   });
 
   describe('coerceUndefinedString', () => {
-    test('"undefined" should equal to true', () => {
+    it('returns true for string undefined', () => {
       expect(coerceUndefinedString('undefined')).toStrictEqual(true);
     });
-    test('"testValue" should equal to false', () => {
+    it('returns false for string not euqal to undefined', () => {
       expect(coerceUndefinedString('testValue')).toStrictEqual(false);
     });
   });
 
   describe('lowerTrim', () => {
-    test('"testValue" should equal to "testValue"', () => {
+    it('returns string all lower cased', () => {
       expect(lowerTrim('testValue')).toStrictEqual('testvalue');
     });
-    test('" TrUe   " should equal to "true"', () => {
+    it('returns string trimmed and lower cased', () => {
       expect(lowerTrim(' TrUe   ')).toStrictEqual('true');
     });
-    test('[] should equal to ""', () => {
+    it('returns empty string when type is not string', () => {
       expect(lowerTrim([])).toStrictEqual('');
+      expect(lowerTrim(null)).toStrictEqual('');
+      expect(lowerTrim(123)).toStrictEqual('');
     });
   });
 });

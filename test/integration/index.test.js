@@ -103,7 +103,7 @@ describe('envConfigMap', () => {
   });
 
   describe('sandbox test', () => {
-    test('should equal expected output', () => {
+    it('returns expected output', () => {
       // set fixture_KEY values for sandbox example
       process.env.NODE_ENV = 'test';
       process.env.SERVER_PORT = '8080';

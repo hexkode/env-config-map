@@ -16,7 +16,7 @@ Object {
 }
 `;
 
-exports[`envConfigMap sandbox test should equal expected output 1`] = `
+exports[`envConfigMap sandbox test returns expected output 1`] = `
 Object {
   "COERCE_NULL": null,
   "COERCE_NULL_DISABLED": "null",
@@ -49,7 +49,7 @@ Object {
 }
 `;
 
-exports[`envConfigMap sandbox test should equal expected output 2`] = `
+exports[`envConfigMap sandbox test returns expected output 2`] = `
 Object {
   "COERCE_NULL": null,
   "COERCE_NULL_DISABLED": "null",

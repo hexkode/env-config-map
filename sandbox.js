@@ -43,14 +43,14 @@ const configMap = {
 const options = {
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: (stringValue) => {
-      const normalized = envConfigMap.utils.lowerTrim(stringValue);
+    booleanYesNo: (str) => {
+      const normalized = envConfigMap.utils.lowerTrim(str);
       if (normalized === 'yes') return true;
       if (normalized === 'no') return false;
       return null;
     },
   },
-  redactor: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
+  redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
 };
 
 // map env vars to config using envConfigMap
