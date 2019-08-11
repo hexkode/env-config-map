@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to app configs.  Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
+Maps environment variables to config object.  Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
 
 - Zero dependency.
 - Supported types:
@@ -15,19 +15,21 @@ Maps environment variables to app configs.  Mapping options includes commonly en
   - `object`
   - `arrayCommaDelim`  
 - `redact` option to redact value for logging.
-- `coerceNull` and `coerceUndefined` options to coerce string 'null' to null and string 'undefined' to undefined.
+- `coerceNull` options to coerce `"null"` to `null`.
+- `coerceUndefined` options to coerce `"undefined"` to `undefined`.
+- Customizable to get input from sources other then `process.env.`
    
 ## Installation
 ```console
 npm install env-config-map
 ```
 
-## Run sandbox example
+## Run Sandbox Example
 ```console
 npm run sandbox
 ```
 
-### Sandbox example
+### Sandbox Example
 ```js
 // source from .env (optional)
 // require('dotenv').config();
@@ -80,6 +82,7 @@ const options = {
       return null;
     },
   },
+  // customize redactor
   redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
 };
 
@@ -91,8 +94,8 @@ console.log(config);
 console.log(config.getRedacted());
 ```
 
-### Sandbox example output:
-console.log(config);
+### Sandbox Example Output:
+#### console.log(config);
 ```js
 { 
   NODE_ENV: 'test',
@@ -115,7 +118,7 @@ console.log(config);
 }
 ```
 
-console.log(config.getRedacted());
+#### console.log(config.getRedacted());
 ```js
 { 
   NODE_ENV: 'test',
@@ -137,11 +140,16 @@ console.log(config.getRedacted());
 ```
 
 ## Options
-- `redactor` : *function* - Transforms value to the redacted value.
-- `types` : *object* -  Define additional types.  Merges with the default types.
-- `getter` : *function* - Getter to get value from key.
-- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.
-- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.
+- `redactor` : *function*
+  - Transforms value to the redacted value.
+- `types` : *object*
+  - Define additional types.  Merges with the supported types.
+- `getter` : *function* 
+  - Getter to get value from key.  It is also possible to customize via the getters to get value from sources other then `process.env`
+- `coerceNull` : *boolean* 
+  - Coerce string `'null'` to `null`.
+- `coerceUndefined` : *boolean* 
+  - Coerce string `'undefined'` to `undefined`.
 
 ```js
 const options = {
@@ -155,6 +163,7 @@ const options = {
       return null;
     },
   },
+  // customized redactor
   redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,
   coerceUndefined: false,
@@ -163,16 +172,21 @@ const config = envConfigMap(configMap, options);
 ```
 
 ## Props for configMap
-- `default` : *mixed* - Default value.  
-- `type` : *string* - Specify the type.  Cast operation will call the type casting function defined in `options.types`.
-  - `string`
-  - `number`
-  - `boolean`
-  - `object`
-  - `arrayCommaDelim`
-- `redact` : *boolean* - Redact value with options.redactor().
-- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.  Supersedes `options.coerceNull`.
-- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.  Supersedes `options.coerceNull`.
+- `default` : *mixed*
+  - Sets the default value.  
+- `type` : *string* 
+  - Specify the type.  Cast operation will call the type casting function defined in `options.types`.  Supports the following types:
+    - `string` (default)
+    - `number`
+    - `boolean`
+    - `object`
+    - `arrayCommaDelim`
+- `redact` : *boolean*
+  - Flag to indicate if the value is a secret and needs to be redacted.
+- `coerceNull` : *boolean*
+  - Coerce string `'null'` to `null`.  Supersedes `options.coerceNull`.
+- `coerceUndefined` : *boolean*
+  - Coerce string `'undefined'` to `undefined`.  Supersedes `options.coerceNull`.
 
 ```js
 const configMap = {
@@ -181,6 +195,7 @@ const configMap = {
   DB_ENABLE_PROFILER: { default: false, type: 'booleanYesNo' },
   COERCE_DISABLED: { coerceNull: false, coerceUndefined: false },
 };
+const config = envConfigMap(configMap, options);
 ```
 
 ## Misc Exports
@@ -191,8 +206,8 @@ const supportedTypeConverters = envConfigMap.types
 const helperUtils = envConfigMap.utils
 ```
 
-## App Example with default options
-.env
+## Example App with Default Options
+### .env
 ```js
 NODE_ENV=test
 LOG_LEVEL=debug
@@ -201,7 +216,7 @@ SERVER_PORT=8080
 DB_PASSWORD=mypassword
 ```
 
-config.js
+### config.js
 ```js
 require('dotenv').config();
 const envConfigMap = require('env-config-map');
@@ -219,7 +234,7 @@ const config = envConfigMap(configMap);
 module.exports = config;
 ```
 
-server.js
+### server.js
 ```js
 const http = require('http');
 const config = require('./config.js');

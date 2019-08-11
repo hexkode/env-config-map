@@ -44,6 +44,7 @@ const coerceNullString = str => lowerTrim(str) === 'null';
 /**
  * Will only call cast() with a string type value.
  * Any other types will be filtered and returned as undefined or null.
+ * If cast is not a function, input will be returned.
  * Any exceptions encoutered during casting will return null.
  *
  * @param {*} mixed

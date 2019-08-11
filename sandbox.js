@@ -50,6 +50,7 @@ const options = {
       return null;
     },
   },
+  // customize redactor
   redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
 };
 
