@@ -30,20 +30,12 @@ describe('types', () => {
       expect(types.string('12345')).toStrictEqual('12345');
     });
 
-    test('"null" to equal null', () => {
-      expect(types.string('null')).toBeNull();
+    test('"null" to equal "null"', () => {
+      expect(types.string('null')).toStrictEqual('null');
     });
 
-    test('"undefined" to equal undefined', () => {
-      expect(types.string('undefined')).toBeUndefined();
-    });
-
-    test('"null" to equal "null" when coerceNull is disabled', () => {
-      expect(types.string('null', { coerceNull: false })).toStrictEqual('null');
-    });
-
-    test('"undefined" to equal "undefined" when coerceUndefined is disabled', () => {
-      expect(types.string('undefined', { coerceUndefined: false })).toStrictEqual('undefined');
+    test('"undefined" to equal "undefined"', () => {
+      expect(types.string('undefined')).toStrictEqual('undefined');
     });
   });
 
@@ -72,16 +64,8 @@ describe('types', () => {
       expect(types.number('null')).toBeNull();
     });
 
-    test('"undefined" to equal undefined', () => {
-      expect(types.number('undefined')).toBeUndefined();
-    });
-
-    test('"null" to equal null when coerceNull is disabled', () => {
-      expect(types.number('null', { coerceNull: false })).toBeNull();
-    });
-
-    test('"undefined" to equal null when coerceUndefined is disabled', () => {
-      expect(types.number('undefined', { coerceUndefined: false })).toBeNull();
+    test('"undefined" to equal null', () => {
+      expect(types.number('undefined')).toBeNull();
     });
   });
 
@@ -114,16 +98,8 @@ describe('types', () => {
       expect(types.boolean('null')).toBeNull();
     });
 
-    test('"undefined" to equal undefined', () => {
-      expect(types.boolean('undefined')).toBeUndefined();
-    });
-
-    test('"null" to equal null when coerceNull is disabled', () => {
-      expect(types.boolean('null', { coerceNull: false })).toBeNull();
-    });
-
-    test('"undefined" to equal null when coerceUndefined is disabled', () => {
-      expect(types.boolean('undefined', { coerceUndefined: false })).toBeNull();
+    test('"undefined" to equal null', () => {
+      expect(types.boolean('undefined')).toBeNull();
     });
   });
 
@@ -144,24 +120,16 @@ describe('types', () => {
       );
     });
 
-    test('invalid json string to equal null', () => {
-      expect(types.object('{ "a": 1')).toBeNull();
+    test('invalid json string to throw exception', () => {
+      expect(() => types.object('{ "a": 1')).toThrow();
     });
 
     test('"null" to equal null', () => {
       expect(types.object('null')).toBeNull();
     });
 
-    test('"undefined" to equal undefined', () => {
-      expect(types.object('undefined')).toBeUndefined();
-    });
-
-    test('"null" to equal null when coerceNull is disabled', () => {
-      expect(types.object('null', { coerceNull: false })).toBeNull();
-    });
-
-    test('"undefined" to equal null when coerceUndefined is disabled', () => {
-      expect(types.object('undefined', { coerceUndefined: false })).toBeNull();
+    test('"undefined" to equal null', () => {
+      expect(() => types.object('undefined')).toThrow();
     });
   });
 
@@ -174,20 +142,12 @@ describe('types', () => {
       expect(types.arrayCommaDelim(' a ,  b   , c ')).toStrictEqual(['a', 'b', 'c']);
     });
 
-    test('"null" to equal null', () => {
-      expect(types.arrayCommaDelim('null')).toBeNull();
+    test('"null" to equal ["null"]', () => {
+      expect(types.arrayCommaDelim('null')).toStrictEqual(['null']);
     });
 
-    test('"undefined" to equal undefined', () => {
-      expect(types.arrayCommaDelim('undefined')).toBeUndefined();
-    });
-
-    test('"null" to equal ["null"] when coerceNull is disabled', () => {
-      expect(types.arrayCommaDelim('null', { coerceNull: false })).toStrictEqual(['null']);
-    });
-
-    test('"undefined" to equal ["undefined"] when coerceUndefined is disabled', () => {
-      expect(types.arrayCommaDelim('undefined', { coerceUndefined: false })).toStrictEqual(['undefined']);
+    test('"undefined" to equal ["undefined"]', () => {
+      expect(types.arrayCommaDelim('undefined')).toStrictEqual(['undefined']);
     });
   });
 });

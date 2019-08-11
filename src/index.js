@@ -41,17 +41,15 @@ const envConfigMap = (configMap = {}, options = {}) => {
     const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
     const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
 
-    let castedKeyValue;
+    let casted;
     if (keyValue === undefined) {
-      castedKeyValue = keyProps.default;
-    } else if (typeof cast === 'function') {
-      castedKeyValue = cast(keyValue, { coerceUndefined, coerceNull });
+      casted = keyProps.default;
     } else {
-      castedKeyValue = null;
+      casted = utils.castString(keyValue, cast, { coerceUndefined, coerceNull });
     }
 
-    config[key] = castedKeyValue;
-    redacted[key] = keyProps.redact === true && castedKeyValue ? opts.redaction(castedKeyValue) : castedKeyValue;
+    config[key] = casted;
+    redacted[key] = keyProps.redact === true && casted ? opts.redaction(casted) : casted;
   });
 
   return config;

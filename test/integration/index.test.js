@@ -8,6 +8,22 @@ describe('envConfigMap', () => {
     });
   });
 
+  describe('when getKeyValue()', () => {
+    test('return undefined, should equal undefined', () => {
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => undefined });
+      expect(config.FIXTURE_KEY).toBeUndefined();
+    });
+    test('return null, should equal null', () => {
+      process.env.FIXTURE_KEY = null;
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => null });
+      expect(config.FIXTURE_KEY).toBeNull();
+    });
+    test('return boolean, should equal null', () => {
+      const config = envConfigMap({ FIXTURE_KEY: {} }, { getKeyValue: () => true });
+      expect(config.FIXTURE_KEY).toBeNull();
+    });
+  });
+
   describe('when coerceUndefined option', () => {
     describe('is enabled for string type', () => {
       test('"undefined" should equal to undefined', () => {

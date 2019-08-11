@@ -1,50 +1,55 @@
 const DEFAULT_REDACTED = '**********';
 
-const coerce = {
-  undefined: stringValue => (stringValue.trim() === 'undefined' ? undefined : stringValue),
-  null: stringValue => (stringValue.trim() === 'null' ? null : stringValue),
-};
-
-/**
- * Run mixedValue through filters to ensure convert is always called with a string.
- * Any other type will immediately return null.
- *
- * If convert is not a function mixedValue is returned.
- */
-const convertString = (mixedValue, convert, options = {}) => {
-  const { coerceUndefined = true, coerceNull = true } = options;
-
-  if (typeof mixedValue !== 'string') {
-    return mixedValue === undefined ? undefined : null;
-  }
-
-  if (coerceUndefined === true && coerce.undefined(mixedValue) === undefined) {
-    return undefined;
-  }
-
-  if (coerceNull === true && coerce.null(mixedValue) === null) {
-    return null;
-  }
-
-  if (typeof convert !== 'function') {
-    return mixedValue;
-  }
-
-  // mixedValue can only be string at this point.
-  return convert(mixedValue);
-};
+const redaction = () => DEFAULT_REDACTED;
 
 const getKeyValue = key => process.env[key];
 
-const redaction = () => DEFAULT_REDACTED;
-
 const lowerTrim = stringValue => (typeof stringValue === 'string' ? stringValue.trim().toLowerCase() : '');
+
+const coerceUndefinedString = stringValue => lowerTrim(stringValue) === 'undefined';
+
+const coerceNullString = stringValue => lowerTrim(stringValue) === 'null';
+
+/**
+ * Will only call cast() with string value.
+ * Any other types will be filtered out as undefined or null.
+ *
+ * @param {*} mixedValue
+ * @param {function} cast
+ * @param {object} options
+ */
+const castString = (mixedValue, cast, options = {}) => {
+  try {
+    const { coerceUndefined = true, coerceNull = true } = options;
+
+    if (typeof mixedValue !== 'string') {
+      return mixedValue === undefined ? undefined : null;
+    }
+
+    if (coerceUndefined === true && coerceUndefinedString(mixedValue) === true) {
+      return undefined;
+    }
+
+    if (coerceNull === true && coerceNullString(mixedValue) === true) {
+      return null;
+    }
+
+    if (typeof cast !== 'function') {
+      return mixedValue;
+    }
+
+    return cast(mixedValue);
+  } catch (err) {
+    return null;
+  }
+};
 
 module.exports = {
   DEFAULT_REDACTED,
-  coerce,
-  convertString,
-  lowerTrim,
-  getKeyValue,
   redaction,
+  getKeyValue,
+  castString,
+  coerceUndefinedString,
+  coerceNullString,
+  lowerTrim,
 };

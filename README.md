@@ -72,14 +72,12 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: (mixedValue, opts) => {
-      const convert = (stringValue) => {
-        const normalized = envConfigMap.utils.lowerTrim(stringValue);
-        if (normalized === 'yes') return true;
-        if (normalized === 'no') return false;
-        return null;
-      };
-      return envConfigMap.utils.convertString(mixedValue, convert, opts);
+    // define custom type "booleanYesNo"
+    booleanYesNo: (stringValue) => {
+      const normalized = envConfigMap.utils.lowerTrim(stringValue);
+      if (normalized === 'yes') return true;
+      if (normalized === 'no') return false;
+      return null;
     },
   },
   redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
@@ -150,16 +148,11 @@ const options = {
   getKeyValue: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: (mixedValue, opts) => {
-      const convert = (stringValue) => {
-        const normalized = envConfigMap.utils.lowerTrim(stringValue);
-        if (normalized === 'yes') return true;
-        if (normalized === 'no') return false;
-        return null;
-      };
-      // utils.convertString() ensures convert() is executed with string as input
-      // It also handles coerce null and coerce undefined via the passed in opts
-      return envConfigMap.utils.convertString(mixedValue, convert, opts);
+    booleanYesNo: (stringValue) => {
+      const normalized = envConfigMap.utils.lowerTrim(stringValue);
+      if (normalized === 'yes') return true;
+      if (normalized === 'no') return false;
+      return null;
     },
   },
   redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
