@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master) 
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to app configs.  Mapping includes commonly encountered patterns such as setting defaults, coerce null and undefined, type casting, and redacting secrets from config for logging.
+Maps environment variables to app configs.  Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
 
 - Zero dependency.
 - Supported types:
@@ -39,7 +39,7 @@ process.env.NODE_ENV = 'test';
 process.env.SERVER_PORT = '8080';
 process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
-process.env.DB_ENABLE_PROFILER = 'yes';
+process.env.DB_ENABLE_PROFILER = 'YES';
 process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
 process.env.EXAMPLE_OBJECT_INVALID = '{ "retry": 3, "timeout": 1000 ';
 process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
@@ -72,7 +72,15 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: stringValue => stringValue === 'yes',
+    booleanYesNo: (mixedValue, opts) => {
+      const convert = (stringValue) => {
+        const normalized = envConfigMap.utils.lowerTrim(stringValue);
+        if (normalized === 'yes') return true;
+        if (normalized === 'no') return false;
+        return null;
+      };
+      return envConfigMap.utils.convertString(mixedValue, convert, opts);
+    },
   },
   redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };
@@ -133,16 +141,26 @@ console.log(config.getRedacted());
 ## Options
 - `redaction` : *function* - Transforms value to the redacted value.
 - `types` : *object* -  Define additional types.  Merges with the default types.
-- `getEnv` : *function* - Getter to get value from key.
+- `getKeyValue` : *function* - Getter to get value from key.
 - `coerceNull` : *boolean* - Coerce string `'null'` to `null`.
 - `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.
 
 ```js
 const options = {
-  getEnv: key => process.env[key],
+  getKeyValue: key => process.env[key],
   types: {
     // define custom type "booleanYesNo"
-    booleanYesNo: stringValue => stringValue === 'yes',
+    booleanYesNo: (mixedValue, opts) => {
+      const convert = (stringValue) => {
+        const normalized = envConfigMap.utils.lowerTrim(stringValue);
+        if (normalized === 'yes') return true;
+        if (normalized === 'no') return false;
+        return null;
+      };
+      // utils.convertString() ensures convert() is executed with string as input
+      // It also handles coerce null and coerce undefined via the passed in opts
+      return envConfigMap.utils.convertString(mixedValue, convert, opts);
+    },
   },
   redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
   coerceNull: true,
@@ -160,8 +178,8 @@ const config = envConfigMap(configMap, options);
   - `object`
   - `arrayCommaDelim`
 - `redact` : *boolean* - Redact value with options.redaction().
-- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.  supersedes `options.coerceNull`.
-- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.  supersedes `options.coerceNull`.
+- `coerceNull` : *boolean* - Coerce string `'null'` to `null`.  Supersedes `options.coerceNull`.
+- `coerceUndefined` : *boolean* - Coerce string `'undefined'` to `undefined`.  Supersedes `options.coerceNull`.
 
 ```js
 const configMap = {
@@ -172,7 +190,15 @@ const configMap = {
 };
 ```
 
-## App Example 
+## Misc Exports
+```js
+const envConfigMap = require('env-config-map');
+const defaultOptions = envConfigMap.defaultOptions
+const supportedTypeConverters = envConfigMap.types
+const helperUtils = envConfigMap.utils
+```
+
+## App Example with default options
 .env
 ```js
 NODE_ENV=test

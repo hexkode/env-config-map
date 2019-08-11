@@ -3,7 +3,7 @@ const utils = require('./utils.js');
 
 const defaultOptions = {
   types,
-  getEnv: utils.getEnv,
+  getKeyValue: utils.getKeyValue,
   redaction: utils.redaction,
   coerceUndefined: true,
   coerceNull: true,
@@ -34,27 +34,24 @@ const envConfigMap = (configMap = {}, options = {}) => {
 
   Object.keys(configMap).forEach((key) => {
     const keyProps = configMap[key];
-    let keyValue = opts.getEnv(key);
+    const keyValue = opts.getKeyValue(key);
+    const keyType = keyProps.type || 'string';
+    const cast = opts.types[keyType];
+    // eslint-disable-next-line max-len
+    const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
+    const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
 
+    let castedKeyValue;
     if (keyValue === undefined) {
-      keyValue = keyProps.default;
+      castedKeyValue = keyProps.default;
+    } else if (typeof cast === 'function') {
+      castedKeyValue = cast(keyValue, { coerceUndefined, coerceNull });
     } else {
-      // defaults to string
-      const keyType = keyProps.type || 'string';
-      const caster = opts.types[keyType];
-
-      // eslint-disable-next-line max-len
-      const coerceUndefined = typeof keyProps.coerceUndefined === 'boolean' ? keyProps.coerceUndefined : opts.coerceUndefined;
-      const coerceNull = typeof keyProps.coerceNull === 'boolean' ? keyProps.coerceNull : opts.coerceNull;
-
-      keyValue = utils.cast(keyValue, caster, {
-        coerceUndefined,
-        coerceNull,
-      });
+      castedKeyValue = null;
     }
 
-    config[key] = keyValue;
-    redacted[key] = keyProps.redact === true && keyValue ? opts.redaction(keyValue) : keyValue;
+    config[key] = castedKeyValue;
+    redacted[key] = keyProps.redact === true && castedKeyValue ? opts.redaction(castedKeyValue) : castedKeyValue;
   });
 
   return config;

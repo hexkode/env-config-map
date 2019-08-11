@@ -4,8 +4,8 @@
   "description": "Maps environment variables to app configs.  Mapping includes commonly encountered patterns.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "test:coverage": "jest --coverage --verbose",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:circleci": "jest --verbose --coverage --coverageReporters=text-lcov | coveralls",
     "lint": "eslint src/** test/** sandbox.js",
     "sandbox": "node sandbox.js"

@@ -1,7 +1,6 @@
 const {
-  cast, DEFAULT_REDACTED, redaction, getEnv, coerce,
+  convertString, DEFAULT_REDACTED, redaction, getKeyValue, coerce, lowerTrim,
 } = require('../../src/utils.js');
-const types = require('../../src/types.js');
 
 describe('utils', () => {
   describe('redaction', () => {
@@ -9,42 +8,44 @@ describe('utils', () => {
       expect(redaction('mypassword')).toStrictEqual(DEFAULT_REDACTED);
     });
   });
-  describe('cast', () => {
-    test('when caster is not a function it should return stringValue', () => {
-      expect(cast('testStringValue', 'notFunction')).toStrictEqual('testStringValue');
+  describe('convertString', () => {
+    test('when convert is not a function it should return "testMixedValue"', () => {
+      expect(convertString('testMixedValue', 'notFunction')).toStrictEqual('testMixedValue');
     });
-    test('when stringValue is not string, null or undefined it should return null', () => {
-      expect(cast(true)).toBeNull();
-      expect(cast(123)).toBeNull();
-      expect(cast([])).toBeNull();
-      expect(cast({})).toBeNull();
+    test('when mixedValue is not string, null or undefined it should return null', () => {
+      expect(convertString(true)).toBeNull();
+      expect(convertString(123)).toBeNull();
+      expect(convertString([])).toBeNull();
+      expect(convertString({})).toBeNull();
     });
-    test('when stringValue is null it should return null', () => {
-      expect(cast(null)).toBeNull();
+    test('when mixedValue is null it should return null', () => {
+      expect(convertString(null)).toBeNull();
     });
-    test('when stringValue is undefined it should return undefined', () => {
-      expect(cast(undefined)).toBeUndefined();
+    test('when mixedValue is undefined it should return undefined', () => {
+      expect(convertString(undefined)).toBeUndefined();
     });
-    test('when coerceNull is enabled, stringValue "null" should return null', () => {
-      expect(cast('null', types.string)).toBeNull();
+    test('when coerceNull is enabled, mixedValue "null" should return null', () => {
+      expect(convertString('null')).toBeNull();
     });
-    test('when coerceUndefined is enabled, stringValue "undefined" should return undefined', () => {
-      expect(cast('undefined', types.string)).toBeUndefined();
+    test('when coerceUndefined is enabled, mixedValue "undefined" should return undefined', () => {
+      expect(convertString('undefined')).toBeUndefined();
     });
-    test('when coerceNull is disabled, stringValue "null" should return "null"', () => {
-      expect(cast('null', types.string, { coerceNull: false })).toStrictEqual('null');
+    test('when coerceNull is disabled, mixedValue "null" should return "null"', () => {
+      expect(convertString('null', stringValue => stringValue, { coerceNull: false })).toStrictEqual('null');
     });
-    test('when coerceUndefined is disabled, stringValue "undefined" should return "undefined"', () => {
-      expect(cast('undefined', types.string, { coerceUndefined: false })).toStrictEqual('undefined');
+    test('when coerceUndefined is disabled, mixedValue "undefined" should return "undefined"', () => {
+      expect(convertString('undefined', stringValue => stringValue, { coerceUndefined: false })).toStrictEqual(
+        'undefined',
+      );
     });
   });
-  describe('getEnv', () => {
+  describe('getKeyValue', () => {
     test('FIXTURE_KEY should equal to "testStringValue"', () => {
       process.env.FIXTURE_KEY = 'testStringValue';
-      expect(getEnv('FIXTURE_KEY')).toStrictEqual('testStringValue');
+      expect(getKeyValue('FIXTURE_KEY')).toStrictEqual('testStringValue');
     });
     test('MISSING_KEY should equal to undefined', () => {
-      expect(getEnv('MISSING_KEY')).toBeUndefined();
+      expect(getKeyValue('MISSING_KEY')).toBeUndefined();
     });
   });
   describe('coerce.null', () => {
@@ -61,6 +62,17 @@ describe('utils', () => {
     });
     test('"testStringValue" should equal to "testStringValue"', () => {
       expect(coerce.undefined('testStringValue')).toStrictEqual('testStringValue');
+    });
+  });
+  describe('lowerTrim', () => {
+    test('"teststringvalue" should equal to "teststringvalue"', () => {
+      expect(lowerTrim('teststringvalue')).toStrictEqual('teststringvalue');
+    });
+    test('" TrUe   " should equal to "true"', () => {
+      expect(lowerTrim(' TrUe   ')).toStrictEqual('true');
+    });
+    test('[] should equal to ""', () => {
+      expect(lowerTrim([])).toStrictEqual('');
     });
   });
 });

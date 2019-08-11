@@ -6,41 +6,45 @@ const coerce = {
 };
 
 /**
- * Will only accept stringValue as string type or undefined.
+ * Run mixedValue through filters to ensure convert is always called with a string.
  * Any other type will immediately return null.
  *
- * Cast must be type function or stringValue is immediately returned.
+ * If convert is not a function mixedValue is returned.
  */
-const cast = (stringValue, caster, options = {}) => {
+const convertString = (mixedValue, convert, options = {}) => {
   const { coerceUndefined = true, coerceNull = true } = options;
 
-  if (typeof stringValue !== 'string') {
-    return stringValue === undefined ? undefined : null;
+  if (typeof mixedValue !== 'string') {
+    return mixedValue === undefined ? undefined : null;
   }
 
-  if (typeof caster !== 'function') {
-    return stringValue;
-  }
-
-  if (coerceUndefined === true && coerce.undefined(stringValue) === undefined) {
+  if (coerceUndefined === true && coerce.undefined(mixedValue) === undefined) {
     return undefined;
   }
 
-  if (coerceNull === true && coerce.null(stringValue) === null) {
+  if (coerceNull === true && coerce.null(mixedValue) === null) {
     return null;
   }
 
-  return caster(stringValue);
+  if (typeof convert !== 'function') {
+    return mixedValue;
+  }
+
+  // mixedValue can only be string at this point.
+  return convert(mixedValue);
 };
 
-const getEnv = key => process.env[key];
+const getKeyValue = key => process.env[key];
 
 const redaction = () => DEFAULT_REDACTED;
+
+const lowerTrim = stringValue => (typeof stringValue === 'string' ? stringValue.trim().toLowerCase() : '');
 
 module.exports = {
   DEFAULT_REDACTED,
   coerce,
-  cast,
-  getEnv,
+  convertString,
+  lowerTrim,
+  getKeyValue,
   redaction,
 };

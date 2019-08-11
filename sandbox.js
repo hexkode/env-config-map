@@ -9,7 +9,7 @@ process.env.NODE_ENV = 'test';
 process.env.SERVER_PORT = '8080';
 process.env.ENABLE_CORS = 'true';
 process.env.DB_PASSWORD = 'mypassword';
-process.env.DB_ENABLE_PROFILER = 'yes';
+process.env.DB_ENABLE_PROFILER = 'YES';
 process.env.EXAMPLE_OBJECT = '{ "retry": 3, "timeout": 1000 } ';
 process.env.EXAMPLE_OBJECT_INVALID = '{ "retry": 3, "timeout": 1000 ';
 process.env.EXAMPLE_ARRAY = '[ "a", 1 ]';
@@ -42,7 +42,18 @@ const configMap = {
 // customize with options
 const options = {
   types: {
-    booleanYesNo: stringValue => stringValue === 'yes',
+    // define custom type "booleanYesNo"
+    booleanYesNo: (mixedValue, opts) => {
+      const convert = (stringValue) => {
+        const normalized = envConfigMap.utils.lowerTrim(stringValue);
+        if (normalized === 'yes') return true;
+        if (normalized === 'no') return false;
+        return null;
+      };
+      // utils.convertString() ensures convert() is executed with string as input
+      // It also handles coerce null and coerce undefined via the passed in opts
+      return envConfigMap.utils.convertString(mixedValue, convert, opts);
+    },
   },
   redaction: stringValue => stringValue.replace(/.+/, 'XXXXXXXXXX'),
 };

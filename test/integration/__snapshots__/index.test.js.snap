@@ -4,7 +4,7 @@ exports[`envConfigMap getOptions() should equal to default options when no optio
 Object {
   "coerceNull": true,
   "coerceUndefined": true,
-  "getEnv": [Function],
+  "getKeyValue": [Function],
   "redaction": [Function],
   "types": Object {
     "arrayCommaDelim": [Function],
@@ -39,7 +39,7 @@ Object {
     "timeout": 1000,
   },
   "EXAMPLE_OBJECT_INVALID": null,
-  "INVALID_TYPE": "passthru          ",
+  "INVALID_TYPE": null,
   "LOG_LEVEL": "info",
   "NODE_ENV": "test",
   "SERVER_HOST": undefined,
@@ -72,7 +72,7 @@ Object {
     "timeout": 1000,
   },
   "EXAMPLE_OBJECT_INVALID": null,
-  "INVALID_TYPE": "passthru          ",
+  "INVALID_TYPE": null,
   "LOG_LEVEL": "info",
   "NODE_ENV": "test",
   "SERVER_HOST": undefined,
