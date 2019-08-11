@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hexkode/env-config-map/badge.svg?branch=master)](https://coveralls.io/github/hexkode/env-config-map?branch=master)
 [![dependencies Status](https://david-dm.org/hexkode/env-config-map/status.svg)](https://david-dm.org/hexkode/env-config-map)
 
-Maps environment variables to config object. Mapping options includes commonly encountered patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
+Map environment variables to config object. Mapping options includes common patterns such as set defaults, coerce null and undefined, type casting, and redact secrets from configs for logging.
 
 - Zero dependency.
 - Supported types:
@@ -15,9 +15,9 @@ Maps environment variables to config object. Mapping options includes commonly e
   - `object`
   - `arrayCommaDelim`
 - `redact` option to redact value for logging.
-- `coerceNull` options to coerce `"null"` to `null`.
-- `coerceUndefined` options to coerce `"undefined"` to `undefined`.
-- Can customzie to get input values from sources other then `process.env.`
+- `coerceNull` option to coerce `"null"` to `null`.
+- `coerceUndefined` option to coerce `"undefined"` to `undefined`.
+- `getter` options to load input values from other sources. Default source is `process.env`.
 
 ## Installation
 

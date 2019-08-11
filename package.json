@@ -1,7 +1,7 @@
 {
   "name": "env-config-map",
   "version": "0.7.2",
-  "description": "Maps environment variables to config object.  Mapping includes commonly encountered patterns.",
+  "description": "Map environment variables to config object.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -16,19 +16,16 @@
   },
   "keywords": [
     "env",
-    ".env",
-    "dotenv",
-    "environment",
-    "conf",
     "config",
-    "configuration",
     "map",
     "type",
     "casting",
     "coerce",
     "redact",
     "twelve-factor",
-    "12factor"
+    "12factor",
+    "dotenv",
+    "environment"
   ],
   "author": "Joe Yu",
   "license": "MIT",
