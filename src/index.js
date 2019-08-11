@@ -10,7 +10,7 @@ const defaultOptions = {
 };
 
 /**
- * Maps value returned from opts.getter() to config object using configMap.
+ * Maps values returned from opts.getter() to a config object.
  * Also generates a redacted version of the config object for logging.
  *
  * @param {Object} configMap

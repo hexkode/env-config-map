@@ -44,8 +44,7 @@ const coerceNullString = str => lowerTrim(str) === 'null';
 /**
  * Will only call cast() with a string type value.
  * Any other types will be filtered and returned as undefined or null.
- * If cast is not a function, input will be returned.
- * Any exceptions encoutered during casting will return null.
+ * If cast is not a function, input will be returned as is.
  *
  * @param {*} mixed
  * @param {function} cast
@@ -53,29 +52,21 @@ const coerceNullString = str => lowerTrim(str) === 'null';
  * @returns {*}
  */
 const convert = (mixed, cast, options = {}) => {
-  try {
-    const { coerceUndefined = true, coerceNull = true } = options;
+  const { coerceUndefined = true, coerceNull = true } = options;
 
-    if (typeof mixed !== 'string') {
-      return mixed === undefined ? undefined : null;
-    }
+  // string type filter
+  if (typeof mixed !== 'string') return mixed === undefined ? undefined : null;
 
-    if (coerceUndefined === true && coerceUndefinedString(mixed) === true) {
-      return undefined;
-    }
+  // coerce undefined filter
+  if (coerceUndefined === true && coerceUndefinedString(mixed) === true) return undefined;
 
-    if (coerceNull === true && coerceNullString(mixed) === true) {
-      return null;
-    }
+  // coerce null filter
+  if (coerceNull === true && coerceNullString(mixed) === true) return null;
 
-    if (typeof cast !== 'function') {
-      return mixed;
-    }
+  // validate cast function filter
+  if (typeof cast !== 'function') return mixed;
 
-    return cast(mixed);
-  } catch (err) {
-    return null;
-  }
+  return cast(mixed);
 };
 
 module.exports = {
