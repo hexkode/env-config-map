@@ -1,10 +1,10 @@
 # env-config-map
 
-[![Version][version-badge]][npm]
-[![Build][build-badge]][circleci]
-[![Coverage][coverage-badge]][coveralls]
-[![Dependencies][dependencies-badge]][david]
-[![License][license-badge]][license]
+[![Version][version-badge]][version-url]
+[![Build][build-badge]][build-url]
+[![Coverage][coverage-badge]][coverage-url]
+[![Dependencies][dependencies-badge]][dependencies-url]
+[![License][license-badge]][license-url]
 
 Map environment variables to config object. Mapping options includes common patterns such as set default, coerce null and undefined, type casting, and redact secrets from config for logging.
 
@@ -147,12 +147,12 @@ const config = envConfigMap(configMap, options);
 
 ## options
 
-- `redactor` : _function_
-  - Function to redact value flaged with the `redact` configMap option.
-- `types` : _object_
-  - For defining additional types and it will merge with the supported types.
 - `getter` : _function_
   - Get input value for key. Default source is `process.env`.
+- `types` : _object_
+  - For defining additional types and it will merge with the supported types.
+- `redactor` : _function_
+  - Function to redact value flaged with the `redact` configMap option.
 - `coerceNull` : _boolean_ _(default: true)_
   - Coerce string `'null'` to `null`.
 - `coerceUndefined` : _boolean_ _(default: true)_
@@ -238,13 +238,13 @@ http
 
 Copyright &copy; 2019 Joe Yu. Licensed under the [MIT License][license].
 
-[version-badge]: https://img.shields.io/npm/v/env-config-map?style=flat-square
-[license-badge]: https://img.shields.io/npm/l/env-config-map?style=flat-square
-[build-badge]: https://img.shields.io/circleci/build/github/hexkode/env-config-map/master?style=flat-square
-[coverage-badge]: https://img.shields.io/coveralls/github/hexkode/env-config-map?style=flat-square
-[dependencies-badge]: https://img.shields.io/david/hexkode/env-config-map?style=flat-square
-[npm]: https://www.npmjs.com/package/env-config-map
-[license]: LICENSE
-[coveralls]: https://coveralls.io/github/hexkode/env-config-map?branch=master
-[circleci]: https://circleci.com/gh/hexkode/env-config-map/tree/master
-[david]: https://david-dm.org/hexkode/env-config-map
+[version-badge]: https://img.shields.io/npm/v/env-config-map.svg?style=flat-square
+[version-url]: https://www.npmjs.com/package/env-config-map
+[build-badge]: https://img.shields.io/circleci/build/github/hexkode/env-config-map/master.svg?style=flat-square
+[build-url]: https://circleci.com/gh/hexkode/env-config-map/tree/master
+[coverage-badge]: https://img.shields.io/coveralls/github/hexkode/env-config-map.svg?style=flat-square
+[coverage-url]: https://coveralls.io/github/hexkode/env-config-map?branch=master
+[dependencies-badge]: https://img.shields.io/david/hexkode/env-config-map.svg?style=flat-square
+[dependencies-url]: https://david-dm.org/hexkode/env-config-map
+[license-badge]: https://img.shields.io/npm/l/env-config-map.svg?style=flat-square
+[license-url]: LICENSE
