@@ -14,7 +14,7 @@ const redactor = () => DEFAULT_REDACTED;
  * @param {string} key
  * @returns {*}
  */
-const getter = key => process.env[key];
+const getter = (key) => process.env[key];
 
 /**
  * If input is string type, it applies lower case and trim,
@@ -23,7 +23,7 @@ const getter = key => process.env[key];
  * @param {*} str
  * @returns {string}
  */
-const lowerTrim = str => (typeof str === 'string' ? str.toLowerCase().trim() : '');
+const lowerTrim = (str) => (typeof str === 'string' ? str.toLowerCase().trim() : '');
 
 /**
  * Coerce undefined from string
@@ -31,7 +31,7 @@ const lowerTrim = str => (typeof str === 'string' ? str.toLowerCase().trim() : '
  * @param {string} str
  * @returns {boolean}
  */
-const coerceUndefinedString = str => lowerTrim(str) === 'undefined';
+const coerceUndefinedString = (str) => lowerTrim(str) === 'undefined';
 
 /**
  * Coerce null from string
@@ -39,7 +39,7 @@ const coerceUndefinedString = str => lowerTrim(str) === 'undefined';
  * @param {string} str
  * @returns {boolean}
  */
-const coerceNullString = str => lowerTrim(str) === 'null';
+const coerceNullString = (str) => lowerTrim(str) === 'null';
 
 /**
  * Will only call cast() with a string type value.

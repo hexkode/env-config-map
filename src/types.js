@@ -1,8 +1,8 @@
 const utils = require('./utils');
 
-const string = str => str;
+const string = (str) => str;
 
-const number = str => (Number.isNaN(Number(str)) ? null : Number(str));
+const number = (str) => (Number.isNaN(Number(str)) ? null : Number(str));
 
 const boolean = (str) => {
   const s = utils.lowerTrim(str);
@@ -11,9 +11,9 @@ const boolean = (str) => {
   return null;
 };
 
-const object = str => JSON.parse(str);
+const object = (str) => JSON.parse(str);
 
-const arrayCommaDelim = str => str.split(',').map(result => result.trim());
+const arrayCommaDelim = (str) => str.split(',').map((result) => result.trim());
 
 module.exports = {
   string,

@@ -1,12 +1,9 @@
 {
   "env": {
-    "commonjs": true,
     "es6": true,
     "node": true,
-    "jest/globals": true
-  },
-  "plugins": ["jest"],
-  "extends": "airbnb-base",
+    "jest": true
+  },  
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -14,7 +11,9 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
+  "extends": "airbnb-base",
   "rules": {
-    "max-len": ["warn", { "code": 120 }]
+    "max-len": ["warn", { "code": 120 }],
+    "arrow-parens": ["error", "always"]
   }
 }

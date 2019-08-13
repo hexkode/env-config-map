@@ -130,7 +130,7 @@ describe('envConfigMap', () => {
             return null;
           },
         },
-        redactor: str => str.replace(/.+/, 'XXXXXXXXXX'),
+        redactor: (str) => str.replace(/.+/, 'XXXXXXXXXX'),
       };
 
       // map env vars to config using envConfigMap

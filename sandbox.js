@@ -38,7 +38,7 @@ const options = {
     },
   },
   // customize redactor
-  redactor: str => str.replace(/.+/, '*** REDACTED ***'),
+  redactor: (str) => str.replace(/.+/, '*** REDACTED ***'),
 };
 
 const config = envConfigMap(configMap, options);

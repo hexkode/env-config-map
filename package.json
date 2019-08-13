@@ -1,13 +1,13 @@
 {
   "name": "env-config-map",
   "version": "1.0.2",
-  "description": "Map environment variables to config object.",
+  "description": "Generates a config object from a config map using any input sources.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:circleci": "jest --verbose --coverage --coverageReporters=text-lcov | coveralls",
-    "lint": "eslint src/** test/** sandbox.js",
+    "lint": "eslint .",
     "sandbox": "node sandbox.js"
   },
   "repository": {
@@ -34,11 +34,10 @@
   },
   "homepage": "https://github.com/hexkode/env-config-map#readme",
   "devDependencies": {
-    "coveralls": "3.0.5",
     "eslint": "5.3.0",
     "eslint-config-airbnb-base": "13.2.0",
     "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-jest": "22.14.1",
-    "jest": "24.8.0"
+    "jest": "24.8.0",
+    "coveralls": "3.0.5"
   }
 }

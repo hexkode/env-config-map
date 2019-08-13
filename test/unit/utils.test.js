@@ -48,10 +48,10 @@ describe('utils', () => {
       expect(convert('undefined')).toBeUndefined();
     });
     it('returns "null" for "null" when coerceNull is false', () => {
-      expect(convert('null', str => str, { coerceNull: false })).toStrictEqual('null');
+      expect(convert('null', (str) => str, { coerceNull: false })).toStrictEqual('null');
     });
     it('returns "undefined" for "undefined" when coerceUndefined is false', () => {
-      expect(convert('undefined', str => str, { coerceUndefined: false })).toStrictEqual('undefined');
+      expect(convert('undefined', (str) => str, { coerceUndefined: false })).toStrictEqual('undefined');
     });
   });
 
